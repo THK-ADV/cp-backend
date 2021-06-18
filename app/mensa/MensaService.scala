@@ -1,10 +1,9 @@
 package mensa
 
-import play.api.libs.ws.{WSClient, WSRequest}
+import play.api.libs.ws.WSClient
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
-import scala.xml.Elem
 
 @Singleton
 class MensaService @Inject() (
@@ -18,19 +17,15 @@ class MensaService @Inject() (
   private val parser = new MensaParser(baseUrl)
 
   def get(mensa: Mensa) =
-    ws.url(url(mensa)).get().map(r => validateResponse(r).map(parser.parseMenu))
-
-  private def validateResponse(resp: WSRequest#Response): Either[String, Elem] =
-    Either.cond(
-      resp.status == 200 & resp.contentType == "text/xml",
-      resp.xml,
-      s"expected status to be 200, but was $resp.status. expected contentType to be text/xml, but was ${resp.contentType}"
-    )
+    for {
+      resp <- ws.url(url(mensa)).get()
+      if resp.status == 200 & resp.contentType == "text/xml"
+    } yield parser.parseMenu(resp.xml)
 
   private def filename(mensa: Mensa): String = mensa match {
-    case Mensa.GM => "mensa_und_cafeteria_gummersbach_ml.xml"
-    case Mensa.DZ => "mensa_und_cafeteria_deutz.xml"
-    case Mensa.SS => "mensa_und_cafeteria_suedstadt.xml"
+    case Mensa.Gummersbach => "mensa_und_cafeteria_gummersbach_ml.xml"
+    case Mensa.Deutz       => "mensa_und_cafeteria_deutz.xml"
+    case Mensa.Suedstadt   => "mensa_und_cafeteria_suedstadt.xml"
   }
 
   private def url(mensa: Mensa): String =

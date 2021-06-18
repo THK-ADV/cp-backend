@@ -3,7 +3,7 @@ package mensa
 sealed trait Mensa
 
 object Mensa {
-  case object GM extends Mensa
-  case object DZ extends Mensa
-  case object SS extends Mensa
+  case object Gummersbach extends Mensa
+  case object Deutz extends Mensa
+  case object Suedstadt extends Mensa
 }

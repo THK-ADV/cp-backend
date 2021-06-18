@@ -1,23 +1,39 @@
 package controllers
 
-import play.api.libs.json.Json
-import play.api.mvc.{AbstractController, ControllerComponents}
 import mensa._
+import play.api.mvc.{AbstractController, ControllerComponents}
 
 import javax.inject.{Inject, Singleton}
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success, Try}
 
 @Singleton
 class MensaController @Inject() (
     cc: ControllerComponents,
     val service: MensaService,
     implicit val ctx: ExecutionContext
-) extends AbstractController(cc) {
+) extends AbstractController(cc)
+    with JsonHttpResponse[Menu] {
 
-  def mensa() = Action.async { _ =>
-    service.get(Mensa.DZ).map {
-      case Right(menu) => Ok(Json.toJson(menu))
-      case Left(err)   => BadRequest(Json.obj("err" -> err))
-    }
+  def mensa(mensaParam: String) = Action.async { _ =>
+    val res = for {
+      mensa <- Future.fromTry(parseParam(mensaParam))
+      menu <- service.get(mensa)
+    } yield menu
+
+    okSeq(res)
   }
+
+  private def parseParam(mensa: String): Try[Mensa] =
+    mensa.toLowerCase match {
+      case "gm" | "gummersbach"            => Success(Mensa.Gummersbach)
+      case "dz" | "deutz "                 => Success(Mensa.Deutz)
+      case "st" | "südstadt" | "suedstadt" => Success(Mensa.Suedstadt)
+      case s =>
+        Failure(
+          new Throwable(
+            s"mensa parameter needs to be either 'gm', 'dz' or 'st', but was $s"
+          )
+        )
+    }
 }
