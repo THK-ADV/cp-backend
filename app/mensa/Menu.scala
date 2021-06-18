@@ -1,4 +1,4 @@
-package service
+package mensa
 
 import controllers.LocalDateFormat
 import org.joda.time.LocalDate

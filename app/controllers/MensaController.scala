@@ -2,7 +2,7 @@ package controllers
 
 import play.api.libs.json.Json
 import play.api.mvc.{AbstractController, ControllerComponents}
-import service._
+import mensa._
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext

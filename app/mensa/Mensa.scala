@@ -1,4 +1,4 @@
-package service
+package mensa
 
 sealed trait Mensa
 
