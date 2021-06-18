@@ -310,8 +310,9 @@ class MensaParserSpec extends UnitSpec {
         None,
         None
       )
-      val menu = Seq(Menu(LocalDate.parse("2021-06-18"), Seq(item1, item2)))
-      res shouldBe menu
+      val menu =
+        Menu(LocalDate.parse("2021-06-18"), "Freitag", Seq(item1, item2))
+      res shouldBe Seq(menu)
     }
   }
 }

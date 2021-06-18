@@ -2,17 +2,20 @@ package mensa
 
 import org.joda.time.LocalDate
 
+import java.util.Locale
 import scala.xml.{Elem, Node, NodeSeq}
 
-class MensaParser(baseUrl: String) {
+class MensaParser(baseUrl: String, locale: Locale = Locale.GERMANY) {
 
   def parseMenu(elem: Elem): Seq[Menu] =
     for {
       menu <- elem \ "date"
       timestamp = parseTimestamp(menu) if timestamp.isDefined
     } yield {
+      val timestamp0 = timestamp.get
+      val weekday = timestamp0.dayOfWeek().getAsText(locale)
       val items = (menu \ "item").map(parseItem)
-      Menu(timestamp.get, items)
+      Menu(timestamp0, weekday, items)
     }
 
   def parseTimestamp(node: Node): Option[LocalDate] = {
