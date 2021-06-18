@@ -1,6 +1,7 @@
 package mensa
 
-import play.api.libs.json.{Json, Writes}
+import play.api.libs.json.JsonConfiguration.Aux
+import play.api.libs.json.{Json, JsonConfiguration, OptionHandlers, Writes}
 
 case class Item(
     category: String,
@@ -13,5 +14,8 @@ case class Item(
 )
 
 object Item {
+  implicit val config: Aux[Json.MacroOptions] =
+    JsonConfiguration(optionHandlers = OptionHandlers.WritesNull)
+
   implicit val writes: Writes[Item] = Json.writes[Item]
 }

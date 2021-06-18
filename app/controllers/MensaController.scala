@@ -1,7 +1,12 @@
 package controllers
 
 import mensa._
-import play.api.mvc.{AbstractController, ControllerComponents}
+import play.api.mvc.{
+  AbstractController,
+  AnyContent,
+  ControllerComponents,
+  Request
+}
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -13,16 +18,29 @@ class MensaController @Inject() (
     val service: MensaService,
     implicit val ctx: ExecutionContext
 ) extends AbstractController(cc)
-    with JsonHttpResponse[Menu] {
+    with JsonHttpResponse {
 
-  def mensa(mensaParam: String) = Action.async { _ =>
+  def legend() = Action.async { _ =>
+    okSeq(service.fetchLegend())
+  }
+
+  def mensa(mensaParam: String) = Action.async { implicit r =>
     val res = for {
       mensa <- Future.fromTry(parseParam(mensaParam))
-      menu <- service.get(mensa)
+      menu <-
+        if (parseBoolQueryParam("withLegend"))
+          service.fetchMensaWithLegend(mensa)
+        else
+          service.fetchMensa(mensa)
     } yield menu
 
     okSeq(res)
   }
+
+  private def parseBoolQueryParam(key: String)(implicit
+      r: Request[AnyContent]
+  ) =
+    r.getQueryString(key).flatMap(_.toBooleanOption) getOrElse false
 
   private def parseParam(mensa: String): Try[Mensa] =
     mensa.toLowerCase match {

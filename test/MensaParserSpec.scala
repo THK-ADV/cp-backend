@@ -1,3 +1,4 @@
+import mensa.AdditiveType.ID
 import mensa._
 import org.joda.time.LocalDate
 
@@ -49,72 +50,6 @@ class MensaParserSpec extends UnitSpec {
       val xml = <foto>fotos/foo.jpg</foto>
       val (_, full) = service.parseImageUrl(xml)
       full shouldBe None
-    }
-
-    "parse a double value successfully" in {
-      val xml = <a>12,5</a>
-      val res = service.parseDouble(xml)
-      res.value shouldBe 12.5
-    }
-
-    "fail parsing a double value if it's empty" in {
-      val xml = <a></a>
-      val res = service.parseDouble(xml)
-      res shouldBe None
-    }
-
-    "parse a list of strings from a comma separated string" in {
-      val xml = <a>A, B, C</a>
-      val res = service.parseStrings(xml)
-      res shouldBe List("A", "B", "C")
-    }
-
-    "parse a single string from a comma separated string if there is only one value" in {
-      val xml = <a>A</a>
-      val res = service.parseStrings(xml)
-      res shouldBe List("A")
-    }
-
-    "parse an empty list of strings from a comma separated string if there is no value" in {
-      val xml = <a></a>
-      val res = service.parseStrings(xml)
-      res shouldBe Nil
-    }
-
-    "parse a list of ints from a comma separated string" in {
-      val xml = <a>1, 2, 3</a>
-      val res = service.parseInts(xml)
-      res shouldBe List(1, 2, 3)
-    }
-
-    "skip invalid ints while parsing a list of ints from a comma separated string" in {
-      val xml = <a>1, A, 3, 2,5</a>
-      val res = service.parseInts(xml)
-      res shouldBe List(1, 3)
-    }
-
-    "parse an empty list of ints from a comma separated string if there is no value" in {
-      val xml = <a></a>
-      val res = service.parseInts(xml)
-      res shouldBe Nil
-    }
-
-    "parse a string" in {
-      val xml = <a>A</a>
-      val res = service.parseString(xml)
-      res shouldBe "A"
-    }
-
-    "parse a string and remove leading and trailing whitespace is there is some" in {
-      val xml = <a>  A  </a>
-      val res = service.parseString(xml)
-      res shouldBe "A"
-    }
-
-    "parse an empty string" in {
-      val xml = <a></a>
-      val res = service.parseString(xml)
-      res shouldBe ""
     }
 
     "parse 3 prices successfully" in {
@@ -173,7 +108,7 @@ class MensaParserSpec extends UnitSpec {
         </root>
 
       val res = service.parseMeal(xml, Meal.Main.apply)
-      val meal = Meal.Main("name", "full name", List(1, 2), Nil)
+      val meal = Meal.Main("name", "full name", List(ID(1), ID(2)), Nil)
       res shouldBe meal
     }
 
@@ -188,7 +123,12 @@ class MensaParserSpec extends UnitSpec {
 
       val res = service.parseMeal(xml, Meal.Description.apply)
       val meal =
-        Meal.Description("name desc", "full name desc", List(1, 2), List(3, 4))
+        Meal.Description(
+          "name desc",
+          "full name desc",
+          List(ID(1), ID(2)),
+          List(ID(3), ID(4))
+        )
       res shouldBe meal
     }
 
@@ -218,8 +158,13 @@ class MensaParserSpec extends UnitSpec {
       val res = service.parseItem(xml)
       val item = Item(
         "cat 1",
-        Meal.Main("name", "full name", List(1, 2), Nil),
-        Meal.Description("name desc", "full name desc", List(1, 2), List(3, 4)),
+        Meal.Main("name", "full name", List(ID(1), ID(2)), Nil),
+        Meal.Description(
+          "name desc",
+          "full name desc",
+          List(ID(1), ID(2)),
+          List(ID(3), ID(4))
+        ),
         List("A", "B"),
         Set(
           Price(Some(1.5), Role.Student),
@@ -281,8 +226,13 @@ class MensaParserSpec extends UnitSpec {
       val res = service.parseMenu(xml)
       val item1 = Item(
         "cat 1",
-        Meal.Main("name", "full name", List(1, 2), Nil),
-        Meal.Description("name desc", "full name desc", List(1, 2), List(3, 4)),
+        Meal.Main("name", "full name", List(ID(1), ID(2)), Nil),
+        Meal.Description(
+          "name desc",
+          "full name desc",
+          List(ID(1), ID(2)),
+          List(ID(3), ID(4))
+        ),
         List("A", "B"),
         Set(
           Price(Some(1.5), Role.Student),
@@ -294,12 +244,13 @@ class MensaParserSpec extends UnitSpec {
       )
       val item2 = Item(
         "cat 2",
-        Meal.Main("name2", "full name2", List(1, 2, 3), List(1)),
+        Meal
+          .Main("name2", "full name2", List(ID(1), ID(2), ID(3)), List(ID(1))),
         Meal.Description(
           "name desc2",
           "full name desc2",
-          List(1, 2, 3),
-          List(3, 4, 5)
+          List(ID(1), ID(2), ID(3)),
+          List(ID(3), ID(4), ID(5))
         ),
         Nil,
         Set(

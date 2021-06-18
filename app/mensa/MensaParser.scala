@@ -1,6 +1,8 @@
 package mensa
 
+import mensa.AdditiveType.ID
 import org.joda.time.LocalDate
+import parser.PrimitivesParser._
 
 import java.util.Locale
 import scala.xml.{Elem, Node, NodeSeq}
@@ -46,39 +48,17 @@ class MensaParser(baseUrl: String, locale: Locale = Locale.GERMANY) {
 
   def parseMeal[A <: Meal](
       node: NodeSeq,
-      f: (String, String, List[Int], List[Int]) => A
+      f: (String, String, List[ID], List[ID]) => A
   ): A = {
     val name = parseString(node \ "name")
     val nameAdditives = parseString(node \ "name_zus")
-    val additives = parseInts(node \ "additives")
-    val allergens = parseInts(node \ "allergens")
+    val additives = parseIDs(node \ "additives")
+    val allergens = parseIDs(node \ "allergens")
     f(name, nameAdditives, additives, allergens)
   }
 
-  def parseString(seq: NodeSeq): String =
-    seq.text.trim
-
-  def parseInts(seq: NodeSeq): List[Int] = {
-    val s = parseString(seq)
-    if (s.isEmpty) Nil
-    else
-      s
-        .split(", ")
-        .map(_.toIntOption)
-        .collect { case Some(a) => a }
-        .toList
-  }
-
-  def parseStrings(seq: NodeSeq): List[String] = {
-    val s = parseString(seq)
-    if (s.isEmpty) Nil
-    else s.split(", ").toList
-  }
-
-  def parseDouble(seq: NodeSeq): Option[Double] =
-    parseString(seq)
-      .replace(',', '.')
-      .toDoubleOption
+  def parseIDs(seq: NodeSeq): List[ID] =
+    parseInts(seq).map(ID.apply)
 
   def parseImageUrl(seq: NodeSeq): (Option[String], Option[String]) = {
     def prefixBaseUrl(url: String) =
