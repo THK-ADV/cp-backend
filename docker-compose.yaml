@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: cp-backend
+    image: cp-backend
+    restart: always
+    ports:
+      - 9000:9000
+    environment:
+      CP_SECRET_KEY: ${SECRET_KEY}
