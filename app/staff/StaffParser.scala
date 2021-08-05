@@ -1,9 +1,13 @@
 package staff
 
+import net.ruippeixotog.scalascraper.browser.{Browser, JsoupBrowser}
+import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
+import net.ruippeixotog.scalascraper.dsl.DSL._
+import net.ruippeixotog.scalascraper.model.Element
 import play.api.libs.ws.WSClient
 
 import java.net.URLDecoder
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Try
@@ -25,50 +29,24 @@ object StaffLocation {
   case object Leverkusen extends StaffLocation
 }
 
-// baseMaxUrl       https://www.th-koeln.de/hochschule/personen_3850.php?location_de%5B%5D=Campus+
-// baseUrlPrefix    https://www.th-koeln.de/filter_list_more_person.php?language=de&location_de[]=Campus+
-// baseUrlSuffix    &document_type[]=person&target=%2Fhochschule%2Fpersonen_3850.php&resultlayout=standard&start=
 case class StaffConfig(
     baseMaxUrl: String,
     baseUrlPrefix: String,
     baseUrlSuffix: String
 )
 
-final class StaffService @Inject() (
+trait StaffXmlProvider {
+  def maxResults(location: StaffLocation): Future[Browser#DocumentType]
+  def staffs(location: StaffLocation, batch: Int): Future[Browser#DocumentType]
+}
+
+final class HttpStaffXmlProvider @Inject() (
     private val ws: WSClient,
     private val config: StaffConfig,
     private implicit val ctx: ExecutionContext
-) {
+) extends StaffXmlProvider {
 
-  private val parser = new StaffParser()
-
-  def fromCache(location: StaffLocation): Future[List[Staff]] = ???
-
-  def writeCache(staff: List[Staff]): Unit = ???
-
-  def fetchStaff(location: StaffLocation): Future[List[Staff]] = {
-    for {
-      maxResp <- ws.url(maxUrl(location)).get()
-      _ = println(maxResp.status, maxResp.contentType)
-      max = parser.parseMaxResults(maxResp.xml) if max.isDefined
-      _ = println(max)
-      steps = this.steps(0, max.get, 10)
-      results <- Future.sequence(
-        steps.map(s => ws.url(s"${baseUrl(location)}$s").get())
-      )
-      staffs = results.flatMap(r => parser.parseEntries(r.xml))
-    } yield staffs
-  }
-
-  def steps(start: Int, end: Int, step: Int): List[Int] = {
-    val xs = ListBuffer.empty[Int]
-    var i = start
-    while (i < end + step) {
-      xs += i
-      i += step
-    }
-    xs.toList
-  }
+  private val browser = JsoupBrowser()
 
   private def maxUrl(location: StaffLocation): String =
     s"${config.baseMaxUrl}${locationName(location)}"
@@ -82,18 +60,80 @@ final class StaffService @Inject() (
     case StaffLocation.Suedstadt   => "S%C3%BCdstadt"
     case StaffLocation.Leverkusen  => "Leverkusen"
   }
+  override def maxResults(
+      location: StaffLocation
+  ): Future[Browser#DocumentType] =
+    ws.url(maxUrl(location)).get().map(r => browser.parseString(r.body))
+
+  override def staffs(
+      location: StaffLocation,
+      batch: Int
+  ): Future[Browser#DocumentType] =
+    ws.url(s"${baseUrl(location)}$batch")
+      .get()
+      .map(r => browser.parseString(r.body))
+}
+
+@Singleton
+final class StaffService @Inject() (
+    private val xmlProvider: StaffXmlProvider,
+    private implicit val ctx: ExecutionContext
+) {
+
+  private val parser = new StaffParser()
+
+  def fromCache(location: StaffLocation): Future[List[Staff]] = ???
+
+  def writeCache(staff: List[Staff]): Unit = ???
+
+  def fetchMaxResults(location: StaffLocation): Future[Int] =
+    xmlProvider.maxResults(location).flatMap { xml =>
+      parser
+        .parseMaxResults(xml)
+        .fold(Future.failed[Int](new Throwable("can't find max results")))(
+          Future.successful
+        )
+    }
+
+/*  def fetchStaff(location: StaffLocation): Future[List[Staff]] =
+    for {
+      max <- fetchMaxResults(location)
+      steps = this.steps(0, max, 10)
+      results <- Future.sequence(
+        steps.map(s => xmlProvider.staffs(location, s))
+      )
+    } yield results.flatMap(parser.parseEntries)*/
+
+  def steps(start: Int, end: Int, step: Int): List[Int] = {
+    if (end == 0) return Nil
+    val xs = ListBuffer.empty[Int]
+    var i = start
+    while (i < end) {
+      xs += i
+      i += step
+    }
+    xs.toList
+  }
 }
 
 final class StaffParser {
 
   import parser.PrimitivesParser._
 
-  def parseMaxResults(node: Node): Option[Int] =
-    (node \\ "a").foldLeft(Option.empty[Int]) { case (acc, n) =>
-      acc.orElse((n \@ "data-maxresults").toIntOption)
-    }
+  def parseAttr[A](
+      e: Element,
+      name: String,
+      f: String => Option[A]
+  ): Option[A] = {
+    println(e)
+    if (e.hasAttr(name)) f(e.attr(name)) else None
+  }
 
-  def parseEntries(node: Node): Seq[Staff] =
+  def parseMaxResults(doc: Browser#DocumentType): Option[Int] =
+    (doc >?> element("#filter_list_more"))
+      .flatMap(e => parseAttr(e, "data-maxresults", _.toIntOption))
+
+ /* def parseEntries(node: Node): Seq[Staff] =
     (node \ "tr").flatMap(parseEntry)
 
   def parseEntry(node: Node): Option[Staff] = {
@@ -129,5 +169,5 @@ final class StaffParser {
 
   private def parseEmail(node: Node): Option[String] =
     parseNonEmptyString(node)
-      .flatMap(s => Try(URLDecoder.decode(s, "utf-8")).toOption)
+      .flatMap(s => Try(URLDecoder.decode(s, "utf-8")).toOption)*/
 }

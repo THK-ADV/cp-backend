@@ -11,6 +11,7 @@ lazy val root = (project in file("."))
     libraryDependencies ++= play,
     libraryDependencies ++= database,
     libraryDependencies ++= test,
+    libraryDependencies ++= parser,
     scalacOptions ++= Seq(
       "-feature",
       "-deprecation",
@@ -37,4 +38,8 @@ lazy val test = Seq(
   "org.scalactic" %% "scalactic" % scalaTestVersion,
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
   "org.scalatest" %% "scalatest-wordspec" % scalaTestVersion % "test"
+)
+
+lazy val parser = Seq(
+  "net.ruippeixotog" %% "scala-scraper" % "2.2.1"
 )
