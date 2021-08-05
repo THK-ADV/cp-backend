@@ -1,10 +1,34 @@
-import staff.StaffParser
+import staff.{Staff, StaffParser}
 
 class StaffParserSpec extends UnitSpec {
 
   val parser = new StaffParser()
 
   "A Staff Parser Spec" should {
+    "parse multiple entries" in {
+      val xml1 =
+        <root>
+          <tr>
+            <td>
+              <a href="/personen/foo.bar/">bar, Foo</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/personen/foo.baz/">baz, Foo</a>
+            </td>
+          </tr>
+        </root>
+      val entries = parser.parseEntries(xml1)
+      entries shouldBe Seq(
+        Staff("bar, Foo", "/personen/foo.bar/", None, None),
+        Staff("baz, Foo", "/personen/foo.baz/", None, None)
+      )
+
+      val empty = parser.parseEntries(<root></root>)
+      empty shouldBe Seq.empty
+    }
+
     "fail parsing a single entry if there are no fields" in {
       val xml = <tr></tr>
       parser.parseEntry(xml).isEmpty shouldBe true
