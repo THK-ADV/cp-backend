@@ -65,7 +65,7 @@ final class StaffServiceSpec
     }
 
     "fetch max results for gm" in {
-      updateMaxResultsWithFile("gm_maxResults.xml")
+      updateMaxResultsWithFile("gm_maxResults.html")
 
       service
         .fetchMaxResults(StaffLocation.Gummersbach)
@@ -74,7 +74,7 @@ final class StaffServiceSpec
     }
 
     "fail while fetching max results for gm if there are none" in {
-      updateMaxResultsWithFile("gm_maxResults_bad.xml")
+      updateMaxResultsWithFile("gm_maxResults_bad.html")
 
       service
         .fetchMaxResults(StaffLocation.Gummersbach)
@@ -85,7 +85,7 @@ final class StaffServiceSpec
     }
 
     "fetch 25 staff entries for gm" in {
-      updateMaxResultsWithFile("gm_maxResults_25.xml")
+      updateMaxResultsWithFile("gm_maxResults_25.html")
 
       service
         .fetchStaff(StaffLocation.Gummersbach)

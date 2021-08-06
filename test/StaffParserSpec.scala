@@ -82,7 +82,7 @@ class StaffParserSpec extends UnitSpec with FileSpec with BrowserSpec {
 
     "parse the number of max results in real file" in {
       parser
-        .parseMaxResults(file("gm_maxResults.xml"))
+        .parseMaxResults(file("gm_maxResults.html"))
         .value shouldBe 275
     }
 
