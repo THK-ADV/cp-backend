@@ -3047,17 +3047,6 @@ newarea: WWW/DEU//HOCHSCHULE/EINSTIEGSSEITE
 
                                         </tbody>
                                     </table>
-
-                                    <div class="form-result-more">
-                                        <a href="#"
-                                           id="filter_list_more"
-                                           data-maxresults="275"
-                                           data-url="/filter_list_more_person.php?language=de&location_de[]=Campus+Gummersbach&amp;document_type[]=person&amp;target=%2Fhochschule%2Fpersonen_3850.php&amp;resultlayout=standard">
-                                            Mehr Ergebnisse
-                                            <span class="anchor"></span>
-                                        </a>
-
-                                    </div>
                                 </div>
 
                             </div>

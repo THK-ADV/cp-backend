@@ -1,160 +1,92 @@
-import net.ruippeixotog.scalascraper.browser.JsoupBrowser
 import staff.{Staff, StaffParser}
 
-class StaffParserSpec extends UnitSpec {
+import scala.language.implicitConversions
+
+class StaffParserSpec extends UnitSpec with FileSpec with BrowserSpec {
 
   val parser = new StaffParser()
 
-  val browser = JsoupBrowser()
-
   "A Staff Parser Spec" should {
-    /*"parse multiple entries" in {
-      val xml1 =
-        <root>
-          <tr>
-            <td>
-              <a href="/personen/foo.bar/">bar, Foo</a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <a href="/personen/foo.baz/">baz, Foo</a>
-            </td>
-          </tr>
-        </root>
-      val entries = parser.parseEntries(xml1)
-      entries shouldBe Seq(
-        Staff("bar, Foo", "/personen/foo.bar/", None, None),
-        Staff("baz, Foo", "/personen/foo.baz/", None, None)
+    "parse multiple entries in real life" in {
+      val staffs = parser.parseEntries(file("gm_persons.html"))
+      val res = List(
+        Staff(
+          "Albayrak, Can Adam",
+          "/personen/can_adam.albayrak/",
+          None,
+          Some("can_adam.albayrak@th-koeln.de")
+        ),
+        Staff(
+          "Algorri Guzman, Maria Elena",
+          "/personen/elena.algorri/",
+          Some("+49 2261-8196-6349"),
+          Some("elena.algorri@th-koeln.de")
+        ),
+        Staff(
+          "Alken, Johannes",
+          "/personen/johannes.alken/",
+          None,
+          Some("johannes.alken@th-koeln.de")
+        ),
+        Staff(
+          "Alterauge, Markus Christopher",
+          "/personen/markus.alterauge/",
+          None,
+          Some("markus.alterauge@th-koeln.de")
+        ),
+        Staff(
+          "Altjohann, Uwe Martin",
+          "/personen/uwe_martin.altjohann/",
+          Some("+49 2261-8196-6215"),
+          Some("uwe_martin.altjohann@th-koeln.de")
+        ),
+        Staff(
+          "Anders, Denis",
+          "/personen/denis.anders/",
+          Some("+49 2261-8196-6372"),
+          Some("denis.anders@th-koeln.de")
+        ),
+        Staff(
+          "Averkamp, Christian",
+          "/personen/christian.averkamp/",
+          Some("+49 2261-8196-6465"),
+          Some("christian.averkamp@th-koeln.de")
+        ),
+        Staff(
+          "Aziz, Ahmad Tarik",
+          "/personen/ahmad.aziz/",
+          Some("+49 2261-8196-6334"),
+          Some("ahmad.aziz@th-koeln.de")
+        ),
+        Staff(
+          "Bader, Lukas",
+          "/personen/lukas.bader/",
+          Some("+49 2261-8196-6293"),
+          Some("lukas.bader@th-koeln.de")
+        ),
+        Staff(
+          "Bartnik, Roman",
+          "/personen/roman.bartnik/",
+          Some("+49 2261-8196-6253"),
+          Some("roman.bartnik@th-koeln.de")
+        )
       )
 
-      val empty = parser.parseEntries(<root></root>)
-      empty shouldBe Seq.empty
+      staffs shouldBe res
     }
 
-    "fail parsing a single entry if there are no fields" in {
-      val xml = <tr></tr>
-      parser.parseEntry(xml).isEmpty shouldBe true
+    "return no staff entries if the html is empty" in {
+      val xml = <root></root>
+      parser.parseEntries(xml).isEmpty shouldBe true
     }
 
-    "parse a single entry with all fields" in {
-      val xml =
-        <tr>
-          <td>
-            <a href="/personen/foo.bar/">bar, Foo</a>
-          </td>
-          <td>
-            <span class="tel">
-              <img src="/img/icons/contact-telefon.svg" alt="Telefon" class="tel-icon" />
-              +49 2261-8196-6349
-            </span>
-            <br/>
-            <span class="email">
-              <img src="/img/icons/contact-email.svg" alt="Email" class="email-icon"/>
-              foo%40bar.baz
-            </span>
-          </td>
-        </tr>
-      val res = parser.parseEntry(xml).value
-      res.name shouldBe "bar, Foo"
-      res.detailUrl shouldBe "/personen/foo.bar/"
-      res.tel.value shouldBe "+49 2261-8196-6349"
-      res.email.value shouldBe "foo@bar.baz"
+    "parse the number of max results in real file" in {
+      parser
+        .parseMaxResults(file("gm_maxResults.xml"))
+        .value shouldBe 275
     }
 
-    "parse a single entry only with tel" in {
-      val xml =
-        <tr>
-          <td>
-            <a href="/personen/foo.bar/">bar, Foo</a>
-          </td>
-          <td>
-            <span class="tel">
-              <img src="/img/icons/contact-telefon.svg" alt="Telefon" class="tel-icon" />
-              +49 2261-8196-6349
-            </span>
-          </td>
-        </tr>
-      val res = parser.parseEntry(xml).value
-      res.name shouldBe "bar, Foo"
-      res.detailUrl shouldBe "/personen/foo.bar/"
-      res.tel.value shouldBe "+49 2261-8196-6349"
-      res.email.isEmpty shouldBe true
-    }
-
-    "parse a single entry where tel is empty" in {
-      val xml =
-        <tr>
-          <td>
-            <a href="/personen/foo.bar/">bar, Foo</a>
-          </td>
-          <td>
-            <span class="tel">
-              <img src="/img/icons/contact-telefon.svg" alt="Telefon" class="tel-icon" />
-            </span>
-          </td>
-        </tr>
-      val res = parser.parseEntry(xml).value
-      res.name shouldBe "bar, Foo"
-      res.detailUrl shouldBe "/personen/foo.bar/"
-      res.tel.isEmpty shouldBe true
-      res.email.isEmpty shouldBe true
-    }
-
-    "parse a single entry only with email" in {
-      val xml =
-        <tr>
-          <td>
-            <a href="/personen/foo.bar/">bar, Foo</a>
-          </td>
-          <td>
-            <span class="email">
-              <img src="/img/icons/contact-email.svg" alt="Email" class="email-icon"/>
-              foo%40bar.baz
-            </span>
-          </td>
-        </tr>
-      val res = parser.parseEntry(xml).value
-      res.name shouldBe "bar, Foo"
-      res.detailUrl shouldBe "/personen/foo.bar/"
-      res.tel.isEmpty shouldBe true
-      res.email.value shouldBe "foo@bar.baz"
-    }
-
-    "parse a single entry where email is empty" in {
-      val xml =
-        <tr>
-          <td>
-            <a href="/personen/foo.bar/">bar, Foo</a>
-          </td>
-          <td>
-            <span class="email">
-              <img src="/img/icons/contact-email.svg" alt="Email" class="email-icon"/>
-            </span>
-          </td>
-        </tr>
-      val res = parser.parseEntry(xml).value
-      res.name shouldBe "bar, Foo"
-      res.detailUrl shouldBe "/personen/foo.bar/"
-      res.tel.isEmpty shouldBe true
-      res.email.isEmpty shouldBe true
-    }
-
-    "parse a single entry only with name" in {
-      val xml =
-        <tr>
-          <td>
-            <a href="/personen/foo.bar/">bar, Foo</a>
-          </td>
-        </tr>
-      val res = parser.parseEntry(xml).value
-      res.name shouldBe "bar, Foo"
-      res.detailUrl shouldBe "/personen/foo.bar/"
-      res.tel.isEmpty shouldBe true
-      res.email.isEmpty shouldBe true
-    }*/
-
-    "parse the number of max results" in {
+    "parse the number of max results with fake data" in {
       val xml =
         <div>
         <table>
@@ -179,7 +111,9 @@ class StaffParserSpec extends UnitSpec {
           </div>
       </div>
 
-      parser.parseMaxResults(browser.parseString(xml.text)).value shouldBe 278
+      parser
+        .parseMaxResults(xml)
+        .value shouldBe 278
     }
 
     "fail parsing the number of max results if there is none inside an a tag" in {
@@ -230,8 +164,12 @@ class StaffParserSpec extends UnitSpec {
           </div>
         </div>
 
-      parser.parseMaxResults(browser.parseString(xml1.text)).isEmpty shouldBe true
-      parser.parseMaxResults(browser.parseString(xml2.text)).isEmpty shouldBe true
+      parser
+        .parseMaxResults(xml1)
+        .isEmpty shouldBe true
+      parser
+        .parseMaxResults(xml2)
+        .isEmpty shouldBe true
     }
   }
 }

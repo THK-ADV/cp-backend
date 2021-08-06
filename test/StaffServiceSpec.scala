@@ -1,31 +1,43 @@
-import net.ruippeixotog.scalascraper.browser.{Browser, JsoupBrowser}
-import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.time.{Seconds, Span}
+import net.ruippeixotog.scalascraper.browser.Browser
 import play.api.inject.bind
 import staff.{StaffLocation, StaffService, StaffXmlProvider}
 
 import scala.concurrent.Future
 import scala.util.Try
+import scala.util.control.NonFatal
 
 final class StaffServiceSpec
     extends AsyncSpec
     with ApplicationSpec
     with FileSpec
-    with ScalaFutures {
+    with BrowserSpec {
+
+  private var fakeMaxResults: Future[Browser#DocumentType] =
+    Future.failed(new Throwable("TODO"))
+
+  private var fakeStuffs: Future[Browser#DocumentType] =
+    Future.failed(new Throwable("TODO"))
+
+  def updateMaxResultsWithFile(filename: String): Unit =
+    fakeMaxResults = Future.fromTry(
+      Try(file(filename))
+    )
+
+  def updateStaffsWithFile(filename: String): Unit =
+    fakeStuffs = Future.fromTry(
+      Try(file(filename))
+    )
 
   class FakeXmlProvider extends StaffXmlProvider {
 
-    private val browser = JsoupBrowser()
+    override def maxResults(
+        location: StaffLocation
+    ): Future[Browser#DocumentType] = fakeMaxResults
 
-    override def maxResults(location: StaffLocation): Future[Browser#DocumentType] =
-      Future.fromTry(
-        Try(browser.parseFile(file("gm_maxResults.xml")))
-      )
-
-    override def staffs(location: StaffLocation, batch: Int): Future[Browser#DocumentType] =
-      Future.fromTry(
-        Try(browser.parseString("<html></html>"))
-      )
+    override def staffs(
+        location: StaffLocation,
+        batch: Int
+    ): Future[Browser#DocumentType] = fakeStuffs
   }
 
   override protected def bindings = Seq(
@@ -47,22 +59,23 @@ final class StaffServiceSpec
     }
 
     "fetch max results" in {
-      whenReady(
-        service.fetchMaxResults(StaffLocation.Gummersbach),
-        timeout(Span(5, Seconds))
-      )(_ shouldBe 100)
-      //service.fetchMaxResults(StaffLocation.Gummersbach).map(_ shouldBe 230)
+      updateMaxResultsWithFile("gm_maxResults.xml")
+
+      service
+        .fetchMaxResults(StaffLocation.Gummersbach)
+        .map(_ shouldBe 275)
+        .recover { case NonFatal(e) => fail(e) }
     }
 
-    "foo" in {
-      import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
-      import net.ruippeixotog.scalascraper.dsl.DSL._
+    "fail while fetching max results if there are none" in {
+      updateMaxResultsWithFile("gm_maxResults_bad.xml")
 
-      val browser = JsoupBrowser()
-      val doc = browser.parseFile(file("gm_maxResults.xml"))
-      (doc >?> element("#filter_list_more")).map(
-        _.attr("data-maxresults")
-      ) shouldBe Some(100)
+      service
+        .fetchMaxResults(StaffLocation.Gummersbach)
+        .map(n => fail(s"expected no maxResults, but was $n"))
+        .recover { case NonFatal(e) =>
+          e.getMessage shouldBe "can't find max results"
+        }
     }
   }
 }
