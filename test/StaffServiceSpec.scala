@@ -15,16 +15,8 @@ final class StaffServiceSpec
   private var fakeMaxResults: Future[Browser#DocumentType] =
     Future.failed(new Throwable("TODO"))
 
-  private var fakeStuffs: Future[Browser#DocumentType] =
-    Future.failed(new Throwable("TODO"))
-
   def updateMaxResultsWithFile(filename: String): Unit =
     fakeMaxResults = Future.fromTry(
-      Try(file(filename))
-    )
-
-  def updateStaffsWithFile(filename: String): Unit =
-    fakeStuffs = Future.fromTry(
       Try(file(filename))
     )
 
@@ -37,7 +29,15 @@ final class StaffServiceSpec
     override def staffs(
         location: StaffLocation,
         batch: Int
-    ): Future[Browser#DocumentType] = fakeStuffs
+    ): Future[Browser#DocumentType] = {
+      val loc = location match {
+        case StaffLocation.Gummersbach => "gm"
+        case StaffLocation.Deutz       => "dz"
+        case StaffLocation.Suedstadt   => "st"
+        case StaffLocation.Leverkusen  => "lev"
+      }
+      Future.fromTry(Try(file(s"${loc}_persons_${batch}.html")))
+    }
   }
 
   override protected def bindings = Seq(
@@ -56,18 +56,24 @@ final class StaffServiceSpec
       service.steps(0, 49, 10) shouldBe expected3
       val expected4 = List(0, 10, 20, 30, 40, 50)
       service.steps(0, 52, 10) shouldBe expected4
+      val expected5 = List(0, 10, 20)
+      service.steps(0, 25, 10) shouldBe expected5
+      val expected6 = List(0, 10)
+      service.steps(0, 15, 10) shouldBe expected6
+      val expected7 = List(0, 10, 20)
+      service.steps(0, 21, 10) shouldBe expected7
     }
 
-    "fetch max results" in {
+    "fetch max results for gm" in {
       updateMaxResultsWithFile("gm_maxResults.xml")
 
       service
         .fetchMaxResults(StaffLocation.Gummersbach)
         .map(_ shouldBe 275)
-        .recover { case NonFatal(e) => fail(e) }
+        .recover { case NonFatal(e) => fail(s"expected result, but was $e") }
     }
 
-    "fail while fetching max results if there are none" in {
+    "fail while fetching max results for gm if there are none" in {
       updateMaxResultsWithFile("gm_maxResults_bad.xml")
 
       service
@@ -76,6 +82,42 @@ final class StaffServiceSpec
         .recover { case NonFatal(e) =>
           e.getMessage shouldBe "can't find max results"
         }
+    }
+
+    "fetch 25 staff entries for gm" in {
+      updateMaxResultsWithFile("gm_maxResults_25.xml")
+
+      service
+        .fetchStaff(StaffLocation.Gummersbach)
+        .map(_.size shouldBe 25)
+        .recover { case NonFatal(e) => fail(s"expected result, but was $e") }
+    }
+
+    "fetch 15 staff entries for dz" in {
+      updateMaxResultsWithFile("dz_maxResults_15.html")
+
+      service
+        .fetchStaff(StaffLocation.Deutz)
+        .map(_.size shouldBe 15)
+        .recover { case NonFatal(e) => fail(s"expected result, but was $e") }
+    }
+
+    "fetch 15 staff entries for st" in {
+      updateMaxResultsWithFile("st_maxResults_13.html")
+
+      service
+        .fetchStaff(StaffLocation.Suedstadt)
+        .map(_.size shouldBe 13)
+        .recover { case NonFatal(e) => fail(s"expected result, but was $e") }
+    }
+
+    "fetch 15 staff entries for lev" in {
+      updateMaxResultsWithFile("lev_maxResults_21.html")
+
+      service
+        .fetchStaff(StaffLocation.Leverkusen)
+        .map(_.size shouldBe 21)
+        .recover { case NonFatal(e) => fail(s"expected result, but was $e") }
     }
   }
 }

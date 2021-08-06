@@ -8,7 +8,7 @@ class StaffParserSpec extends UnitSpec with FileSpec with BrowserSpec {
 
   "A Staff Parser Spec" should {
     "parse multiple entries in real life" in {
-      val staffs = parser.parseEntries(file("gm_persons.html"))
+      val staffs = parser.parseEntries(file("gm_persons_0.html"))
       val res = List(
         Staff(
           "Albayrak, Can Adam",

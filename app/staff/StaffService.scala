@@ -25,14 +25,14 @@ final class StaffService @Inject() (
         )
     }
 
-  /*  def fetchStaff(location: StaffLocation): Future[List[Staff]] =
+  def fetchStaff(location: StaffLocation): Future[List[Staff]] =
     for {
       max <- fetchMaxResults(location)
       steps = this.steps(0, max, 10)
       results <- Future.sequence(
         steps.map(s => xmlProvider.staffs(location, s))
       )
-    } yield results.flatMap(parser.parseEntries)*/
+    } yield results.flatMap(parser.parseEntries)
 
   def steps(start: Int, end: Int, step: Int): List[Int] = {
     if (end == 0) return Nil
