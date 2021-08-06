@@ -1,13 +1,10 @@
 package mensa.legend
 
-import play.api.libs.json.JsonConfiguration.Aux
-import play.api.libs.json.{Json, JsonConfiguration, OptionHandlers, Writes}
+import controllers.JsonNullWritable
+import play.api.libs.json.{Json, Writes}
 
 case class Additive(deLabel: String, enLabel: String, id: Option[Int])
 
-object Additive {
-  implicit val config: Aux[Json.MacroOptions] =
-    JsonConfiguration(optionHandlers = OptionHandlers.WritesNull)
-
+object Additive extends JsonNullWritable {
   implicit val writes: Writes[Additive] = Json.writes[Additive]
 }

@@ -15,6 +15,7 @@ bin/
 project/
 target/
 build/
+!project/plugins.sbt
 
 # eclipse
 build

@@ -1,6 +1,6 @@
 package mensa.legend
 
-import parser.PrimitivesParser._
+import parser.XMLParserOps._
 
 import scala.xml.{Elem, NodeSeq}
 

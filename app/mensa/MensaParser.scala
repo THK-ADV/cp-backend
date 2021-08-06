@@ -2,7 +2,7 @@ package mensa
 
 import mensa.AdditiveType.ID
 import org.joda.time.LocalDate
-import parser.PrimitivesParser._
+import parser.XMLParserOps._
 
 import java.util.Locale
 import scala.xml.{Elem, Node, NodeSeq}

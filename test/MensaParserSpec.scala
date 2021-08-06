@@ -6,49 +6,49 @@ class MensaParserSpec extends UnitSpec {
 
   val baseUrl = "https://mensa_parser.spec"
 
-  val service = new MensaParser(baseUrl)
+  val parser = new MensaParser(baseUrl)
 
   "A Mensa Parser" should {
 
     "parse a timestamp successfully" in {
       val xml = <a timestamp="1623967200"></a>
-      val res = service.parseTimestamp(xml)
+      val res = parser.parseTimestamp(xml)
       res.value shouldBe LocalDate.parse("2021-06-18")
     }
 
     "fail parsing a timestamp if there is no attribute" in {
       val xml = <a></a>
-      val res = service.parseTimestamp(xml)
+      val res = parser.parseTimestamp(xml)
       res shouldBe None
     }
 
     "fail parsing a timestamp if the timestamp is invalid" in {
       val xml = <a timestamp="invalid"></a>
-      val res = service.parseTimestamp(xml)
+      val res = parser.parseTimestamp(xml)
       res shouldBe None
     }
 
     "parse a thumbnail image url successfully" in {
       val xml = <foto>fotos/foo.jpg</foto>
-      val (thumbnail, _) = service.parseImageUrl(xml)
+      val (thumbnail, _) = parser.parseImageUrl(xml)
       thumbnail.value shouldBe s"$baseUrl/fotos/foo.jpg"
     }
 
     "fail parsing a thumbnail image url if there is no url" in {
       val xml = <foto></foto>
-      val (thumbnail, _) = service.parseImageUrl(xml)
+      val (thumbnail, _) = parser.parseImageUrl(xml)
       thumbnail shouldBe None
     }
 
     "parse a full image url successfully if it's cropped" in {
       val xml = <foto>fotos/foo_r480_cropped.jpg</foto>
-      val (_, full) = service.parseImageUrl(xml)
+      val (_, full) = parser.parseImageUrl(xml)
       full.value shouldBe s"$baseUrl/fotos/foo.jpg"
     }
 
     "fail parsing a full image url if it's not cropped" in {
       val xml = <foto>fotos/foo.jpg</foto>
-      val (_, full) = service.parseImageUrl(xml)
+      val (_, full) = parser.parseImageUrl(xml)
       full shouldBe None
     }
 
@@ -59,7 +59,7 @@ class MensaParserSpec extends UnitSpec {
           <price2>2,5</price2>
           <price3>3,5</price3>
         </root>
-      val res = service.parsePrices(xml)
+      val res = parser.parsePrices(xml)
       val prices = Set(
         Price(Some(1.5), Role.Student),
         Price(Some(2.5), Role.Employee),
@@ -75,7 +75,7 @@ class MensaParserSpec extends UnitSpec {
           <price2>2,5</price2>
           <price3>-</price3>
         </root>
-      val res = service.parsePrices(xml)
+      val res = parser.parsePrices(xml)
       val prices = Set(
         Price(None, Role.Student),
         Price(Some(2.5), Role.Employee),
@@ -89,7 +89,7 @@ class MensaParserSpec extends UnitSpec {
         <root>
           <price1>1,5</price1>
         </root>
-      val res = service.parsePrices(xml)
+      val res = parser.parsePrices(xml)
       val prices = Set(
         Price(Some(1.5), Role.Student),
         Price(None, Role.Employee),
@@ -107,7 +107,7 @@ class MensaParserSpec extends UnitSpec {
           <allergens></allergens>
         </root>
 
-      val res = service.parseMeal(xml, Meal.Main.apply)
+      val res = parser.parseMeal(xml, Meal.Main.apply)
       val meal = Meal.Main("name", "full name", List(ID(1), ID(2)), Nil)
       res shouldBe meal
     }
@@ -121,7 +121,7 @@ class MensaParserSpec extends UnitSpec {
           <allergens>3, 4</allergens>
         </root>
 
-      val res = service.parseMeal(xml, Meal.Description.apply)
+      val res = parser.parseMeal(xml, Meal.Description.apply)
       val meal =
         Meal.Description(
           "name desc",
@@ -155,7 +155,7 @@ class MensaParserSpec extends UnitSpec {
           <foto>fotos/foo_r480_cropped.jpg</foto>
         </root>
 
-      val res = service.parseItem(xml)
+      val res = parser.parseItem(xml)
       val item = Item(
         "cat 1",
         Meal.Main("name", "full name", List(ID(1), ID(2)), Nil),
@@ -223,7 +223,7 @@ class MensaParserSpec extends UnitSpec {
             </item>
           </date>
         </root>
-      val res = service.parseMenu(xml)
+      val res = parser.parseMenu(xml)
       val item1 = Item(
         "cat 1",
         Meal.Main("name", "full name", List(ID(1), ID(2)), Nil),
