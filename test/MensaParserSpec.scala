@@ -4,10 +4,10 @@ import org.joda.time.LocalDate
 
 class MensaParserSpec extends UnitSpec {
 
-  implicit val config: MensaConfig =
+  val config =
     MensaConfig("https://mensa_parser.spec", "https://mensa_parser.spec/legend")
 
-  val parser = new MensaParser()
+  val parser = new MensaParser(config)
 
   "A Mensa Parser" should {
 

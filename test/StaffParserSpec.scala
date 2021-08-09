@@ -2,9 +2,15 @@ import staff.{Staff, StaffParser}
 
 import scala.language.implicitConversions
 
-class StaffParserSpec extends UnitSpec with FileSpec with BrowserSpec {
+class StaffParserSpec
+    extends UnitSpec
+    with ApplicationSpec
+    with FileSpec
+    with BrowserSpec {
 
-  val parser = new StaffParser()
+  val parser = app.injector.instanceOf(classOf[StaffParser])
+
+  private def prefixUrl(suffix: String) = parser.config.detailUrlPrefix + suffix
 
   "A Staff Parser Spec" should {
     "parse multiple entries in real life" in {
@@ -12,61 +18,61 @@ class StaffParserSpec extends UnitSpec with FileSpec with BrowserSpec {
       val res = List(
         Staff(
           "Albayrak, Can Adam",
-          "/personen/can_adam.albayrak/",
+          prefixUrl("/personen/can_adam.albayrak/"),
           None,
           Some("can_adam.albayrak@th-koeln.de")
         ),
         Staff(
           "Algorri Guzman, Maria Elena",
-          "/personen/elena.algorri/",
+          prefixUrl("/personen/elena.algorri/"),
           Some("+49 2261-8196-6349"),
           Some("elena.algorri@th-koeln.de")
         ),
         Staff(
           "Alken, Johannes",
-          "/personen/johannes.alken/",
+          prefixUrl("/personen/johannes.alken/"),
           None,
           Some("johannes.alken@th-koeln.de")
         ),
         Staff(
           "Alterauge, Markus Christopher",
-          "/personen/markus.alterauge/",
+          prefixUrl("/personen/markus.alterauge/"),
           None,
           Some("markus.alterauge@th-koeln.de")
         ),
         Staff(
           "Altjohann, Uwe Martin",
-          "/personen/uwe_martin.altjohann/",
+          prefixUrl("/personen/uwe_martin.altjohann/"),
           Some("+49 2261-8196-6215"),
           Some("uwe_martin.altjohann@th-koeln.de")
         ),
         Staff(
           "Anders, Denis",
-          "/personen/denis.anders/",
+          prefixUrl("/personen/denis.anders/"),
           Some("+49 2261-8196-6372"),
           Some("denis.anders@th-koeln.de")
         ),
         Staff(
           "Averkamp, Christian",
-          "/personen/christian.averkamp/",
+          prefixUrl("/personen/christian.averkamp/"),
           Some("+49 2261-8196-6465"),
           Some("christian.averkamp@th-koeln.de")
         ),
         Staff(
           "Aziz, Ahmad Tarik",
-          "/personen/ahmad.aziz/",
+          prefixUrl("/personen/ahmad.aziz/"),
           Some("+49 2261-8196-6334"),
           Some("ahmad.aziz@th-koeln.de")
         ),
         Staff(
           "Bader, Lukas",
-          "/personen/lukas.bader/",
+          prefixUrl("/personen/lukas.bader/"),
           Some("+49 2261-8196-6293"),
           Some("lukas.bader@th-koeln.de")
         ),
         Staff(
           "Bartnik, Roman",
-          "/personen/roman.bartnik/",
+          prefixUrl("/personen/roman.bartnik/"),
           Some("+49 2261-8196-6253"),
           Some("roman.bartnik@th-koeln.de")
         )

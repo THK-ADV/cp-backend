@@ -7,10 +7,9 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 final class StaffService @Inject() (
     private val htmlProvider: StaffHTMLProvider,
+    private val parser: StaffParser,
     private implicit val ctx: ExecutionContext
 ) {
-
-  private val parser = new StaffParser()
 
   def fromCache(location: StaffLocation): Future[List[Staff]] = ???
 

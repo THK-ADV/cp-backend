@@ -10,7 +10,7 @@ import scala.xml.{Elem, Node, NodeSeq}
 
 @Singleton
 class MensaParser @Inject() (
-    private implicit val config: MensaConfig
+    private val config: MensaConfig
 ) {
 
   private val locale: Locale = Locale.GERMANY

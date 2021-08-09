@@ -5,7 +5,10 @@ import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.model.Element
 
-final class StaffParser {
+import javax.inject.{Inject, Singleton}
+
+@Singleton
+final class StaffParser @Inject() (val config: StaffConfig) {
 
   def parseMaxResults(doc: Browser#DocumentType): Option[Int] =
     (doc >?> attr("data-maxresults")("a[id=filter_list_more]"))
@@ -35,7 +38,9 @@ final class StaffParser {
   }
 
   private def parseName(elem: Element): Option[(String, String)] =
-    parseNonEmptyString(elem).zip(elem >?> attr("href"))
+    parseNonEmptyString(elem).zip(
+      (elem >?> attr("href")).map(config.detailUrlPrefix + _)
+    )
 
   private def parseNonEmptyString(elem: Element): Option[String] = {
     val text = elem.text
