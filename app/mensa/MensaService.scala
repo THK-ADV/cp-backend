@@ -14,7 +14,7 @@ class MensaService @Inject() (
     private implicit val ctx: ExecutionContext
 ) {
 
-  def fetchMensa(mensa: Mensa): Future[Seq[Menu]] =
+  def fetchMensa(mensa: MensaLocation): Future[Seq[Menu]] =
     mensaProvider
       .mensaMenu(mensa)
       .map(mensaParser.parseMenu)
@@ -24,7 +24,7 @@ class MensaService @Inject() (
       .legend()
       .map(legendParser.parseLegend)
 
-  def fetchMensaWithLegend(mensa: Mensa): Future[Seq[Menu]] = {
+  def fetchMensaWithLegend(mensa: MensaLocation): Future[Seq[Menu]] = {
     for {
       menu <- fetchMensa(mensa)
       legend <- fetchLegend()

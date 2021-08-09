@@ -42,11 +42,18 @@ class MensaController @Inject() (
   ) =
     r.getQueryString(key).flatMap(_.toBooleanOption) getOrElse false
 
-  private def parseParam(mensa: String): Try[Mensa] =
+  private def parseParam(mensa: String): Try[MensaLocation] =
     mensa.toLowerCase match {
-      case "gm" | "gummersbach"            => Success(Mensa.Gummersbach)
-      case "dz" | "deutz "                 => Success(Mensa.Deutz)
-      case "st" | "südstadt" | "suedstadt" => Success(Mensa.Suedstadt)
+      case "gm" | "gummersbach" =>
+        Success(MensaLocation.Gummersbach)
+      case "dz" | "deutz " =>
+        Success(MensaLocation.Deutz)
+      case "st" | "südstadt" | "suedstadt" =>
+        Success(MensaLocation.Suedstadt)
+      case "c" | "claudiusstrasse" | "claudiusstraße" =>
+        Success(MensaLocation.Claudiusstrasse)
+      case "bdz" | "bistrodeutz" =>
+        Success(MensaLocation.BistroDeutz)
       case s =>
         Failure(
           new Throwable(
