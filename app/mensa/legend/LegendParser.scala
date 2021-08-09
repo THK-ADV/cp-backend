@@ -2,8 +2,10 @@ package mensa.legend
 
 import parser.PrimitivesParser._
 
+import javax.inject.Singleton
 import scala.xml.{Elem, NodeSeq}
 
+@Singleton
 class LegendParser {
 
   def parseLegend(elem: Elem): Seq[Additive] = {

@@ -1,5 +1,6 @@
 import com.google.inject.AbstractModule
-import staff.{HttpStaffXmlProvider, StaffConfig, StaffXmlProvider}
+import mensa.{HttpMensaXMLProvider, MensaConfig, MensaXMLProvider}
+import staff.{HttpStaffHTMLProvider, StaffConfig, StaffHTMLProvider}
 
 class Module extends AbstractModule {
   override def configure(): Unit = {
@@ -14,8 +15,21 @@ class Module extends AbstractModule {
         )
       )
 
-    bind(classOf[StaffXmlProvider])
-      .to(classOf[HttpStaffXmlProvider])
+    // all: https://www.max-manager.de/daten-extern/sw-koeln/slsys-xml/kstw/
+    bind(classOf[MensaConfig])
+      .toInstance(
+        MensaConfig(
+          "https://www.max-manager.de/daten-extern/sw-koeln/slsys-xml",
+          "https://www.max-manager.de/daten-extern/sw-koeln/slsys-xml/kstw/legende.xml"
+        )
+      )
+
+    bind(classOf[StaffHTMLProvider])
+      .to(classOf[HttpStaffHTMLProvider])
+      .asEagerSingleton()
+
+    bind(classOf[MensaXMLProvider])
+      .to(classOf[HttpMensaXMLProvider])
       .asEagerSingleton()
   }
 }

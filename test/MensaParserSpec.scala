@@ -4,9 +4,10 @@ import org.joda.time.LocalDate
 
 class MensaParserSpec extends UnitSpec {
 
-  val baseUrl = "https://mensa_parser.spec"
+  implicit val config: MensaConfig =
+    MensaConfig("https://mensa_parser.spec", "https://mensa_parser.spec/legend")
 
-  val parser = new MensaParser(baseUrl)
+  val parser = new MensaParser()
 
   "A Mensa Parser" should {
 
@@ -31,7 +32,7 @@ class MensaParserSpec extends UnitSpec {
     "parse a thumbnail image url successfully" in {
       val xml = <foto>fotos/foo.jpg</foto>
       val (thumbnail, _) = parser.parseImageUrl(xml)
-      thumbnail.value shouldBe s"$baseUrl/fotos/foo.jpg"
+      thumbnail.value shouldBe s"${config.baseUrl}/fotos/foo.jpg"
     }
 
     "fail parsing a thumbnail image url if there is no url" in {
@@ -43,7 +44,7 @@ class MensaParserSpec extends UnitSpec {
     "parse a full image url successfully if it's cropped" in {
       val xml = <foto>fotos/foo_r480_cropped.jpg</foto>
       val (_, full) = parser.parseImageUrl(xml)
-      full.value shouldBe s"$baseUrl/fotos/foo.jpg"
+      full.value shouldBe s"${config.baseUrl}/fotos/foo.jpg"
     }
 
     "fail parsing a full image url if it's not cropped" in {
@@ -171,8 +172,8 @@ class MensaParserSpec extends UnitSpec {
           Price(Some(2.5), Role.Employee),
           Price(None, Role.Guest)
         ),
-        Some(s"$baseUrl/fotos/foo_r480_cropped.jpg"),
-        Some(s"$baseUrl/fotos/foo.jpg")
+        Some(s"${config.baseUrl}/fotos/foo_r480_cropped.jpg"),
+        Some(s"${config.baseUrl}/fotos/foo.jpg")
       )
       res shouldBe item
     }
@@ -239,8 +240,8 @@ class MensaParserSpec extends UnitSpec {
           Price(Some(2.5), Role.Employee),
           Price(None, Role.Guest)
         ),
-        Some(s"$baseUrl/fotos/foo_r480_cropped.jpg"),
-        Some(s"$baseUrl/fotos/foo.jpg")
+        Some(s"${config.baseUrl}/fotos/foo_r480_cropped.jpg"),
+        Some(s"${config.baseUrl}/fotos/foo.jpg")
       )
       val item2 = Item(
         "cat 2",

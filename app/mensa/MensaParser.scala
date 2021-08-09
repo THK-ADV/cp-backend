@@ -5,9 +5,15 @@ import org.joda.time.LocalDate
 import parser.PrimitivesParser._
 
 import java.util.Locale
+import javax.inject.{Inject, Singleton}
 import scala.xml.{Elem, Node, NodeSeq}
 
-class MensaParser(baseUrl: String, locale: Locale = Locale.GERMANY) {
+@Singleton
+class MensaParser @Inject() (
+    private implicit val config: MensaConfig
+) {
+
+  private val locale: Locale = Locale.GERMANY
 
   def parseMenu(elem: Elem): Seq[Menu] =
     for {
@@ -62,7 +68,7 @@ class MensaParser(baseUrl: String, locale: Locale = Locale.GERMANY) {
 
   def parseImageUrl(seq: NodeSeq): (Option[String], Option[String]) = {
     def prefixBaseUrl(url: String) =
-      s"$baseUrl/$url"
+      s"${config.baseUrl}/$url"
 
     val thumbnail = parseString(seq)
     val thumbnailSuffix = "_r480_cropped"

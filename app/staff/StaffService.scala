@@ -6,7 +6,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 final class StaffService @Inject() (
-    private val xmlProvider: StaffXmlProvider,
+    private val htmlProvider: StaffHTMLProvider,
     private implicit val ctx: ExecutionContext
 ) {
 
@@ -17,7 +17,7 @@ final class StaffService @Inject() (
   def writeCache(staff: List[Staff]): Unit = ???
 
   def fetchMaxResults(location: StaffLocation): Future[Int] =
-    xmlProvider.maxResults(location).flatMap { xml =>
+    htmlProvider.maxResults(location).flatMap { xml =>
       parser
         .parseMaxResults(xml)
         .fold(Future.failed[Int](new Throwable("can't find max results")))(
@@ -30,7 +30,7 @@ final class StaffService @Inject() (
       max <- fetchMaxResults(location)
       steps = this.steps(0, max, 10)
       results <- Future.sequence(
-        steps.map(s => xmlProvider.staffs(location, s))
+        steps.map(s => htmlProvider.staffs(location, s))
       )
     } yield results.flatMap(parser.parseEntries)
 
