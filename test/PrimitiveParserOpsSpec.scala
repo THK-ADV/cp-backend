@@ -1,7 +1,7 @@
-class XMLParserOpsSpec extends UnitSpec {
-  import parser.XMLParserOps._
+class PrimitiveParserOpsSpec extends UnitSpec {
+  import parser.PrimitivesParser._
 
-  "A XML Parser" should {
+  "A Primitive Parser" should {
     "parse a double value successfully" in {
       val xml = <a>12,5</a>
       val res = parseDouble(xml)

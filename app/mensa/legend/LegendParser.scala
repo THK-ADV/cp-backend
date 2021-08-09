@@ -1,6 +1,6 @@
 package mensa.legend
 
-import parser.XMLParserOps._
+import parser.PrimitivesParser._
 
 import scala.xml.{Elem, NodeSeq}
 
@@ -43,17 +43,4 @@ class LegendParser {
     val label = parseString(item)
     (label, id)
   }
-
-  def zip6With[A, B, C, D, E, F, Z](
-      as: Iterable[A],
-      bs: Iterable[B],
-      cs: Iterable[C],
-      ds: Iterable[D],
-      es: Iterable[E],
-      fs: Iterable[F]
-  )(transform: (A, B, C, D, E, F) => Z): Iterable[Z] =
-    as.zip(bs).zip(cs).zip(ds).zip(es).zip(fs).map {
-      case (((((a, b), c), d), e), f) =>
-        transform(a, b, c, d, e, f)
-    }
 }
