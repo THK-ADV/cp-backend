@@ -1,12 +1,9 @@
 package controllers
 
+import mensa.MensaLocation._
 import mensa._
-import play.api.mvc.{
-  AbstractController,
-  AnyContent,
-  ControllerComponents,
-  Request
-}
+import play.api.libs.json.{Json, Writes}
+import play.api.mvc.{AbstractController, ControllerComponents}
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -18,15 +15,19 @@ class MensaController @Inject() (
     val service: MensaService,
     implicit val ctx: ExecutionContext
 ) extends AbstractController(cc)
-    with JsonHttpResponse {
+    with JsonHttpResponse
+    with QueryStringParser {
+
+  implicit val writes: Writes[MensaLocation] =
+    Writes.apply(a => Json.obj("name" -> a.toString, "id" -> unapply(a)))
 
   def legend() = Action.async { _ =>
     okSeq(service.fetchLegend())
   }
 
-  def mensa(mensaParam: String) = Action.async { implicit r =>
+  def mensa(id: String) = Action.async { implicit r =>
     val res = for {
-      mensa <- Future.fromTry(parseParam(mensaParam))
+      mensa <- Future.fromTry(parseParam(id))
       menu <-
         if (parseBoolQueryParam("withLegend"))
           service.fetchMensaWithLegend(mensa)
@@ -37,27 +38,18 @@ class MensaController @Inject() (
     okSeq(res)
   }
 
-  private def parseBoolQueryParam(key: String)(implicit
-      r: Request[AnyContent]
-  ) =
-    r.getQueryString(key).flatMap(_.toBooleanOption) getOrElse false
+  def allAvailable() = Action { _ =>
+    Ok(Json.toJson(MensaLocation.all()))
+  }
 
   private def parseParam(mensa: String): Try[MensaLocation] =
-    mensa.toLowerCase match {
-      case "gm" | "gummersbach" =>
-        Success(MensaLocation.Gummersbach)
-      case "dz" | "deutz " =>
-        Success(MensaLocation.Deutz)
-      case "st" | "südstadt" | "suedstadt" =>
-        Success(MensaLocation.Suedstadt)
-      case "c" | "claudiusstrasse" | "claudiusstraße" =>
-        Success(MensaLocation.Claudiusstrasse)
-      case "bdz" | "bistrodeutz" =>
-        Success(MensaLocation.BistroDeutz)
-      case s =>
+    MensaLocation.apply(mensa.toLowerCase) match {
+      case Some(value) =>
+        Success(value)
+      case None =>
         Failure(
           new Throwable(
-            s"mensa parameter needs to be either 'gm', 'dz' or 'st', but was $s"
+            s"invalid parameter. the following locations are supported: ${MensaLocation.all().map(unapply).mkString(",")}"
           )
         )
     }

@@ -21,7 +21,9 @@ trait JsonHttpResponse {
   def ok[A](f: Future[A])(implicit writes: Writes[A]): Future[Result] =
     recover400(f.map(s => Ok(Json.toJson(s))))
 
-  def okOpt[A](f: Future[Option[A]])(implicit writes: Writes[A]): Future[Result] =
+  def okOpt[A](f: Future[Option[A]])(implicit
+      writes: Writes[A]
+  ): Future[Result] =
     recover400(
       f.map(s => s.fold(NotFound(Json.obj()))(s => Ok(Json.toJson(s))))
     )

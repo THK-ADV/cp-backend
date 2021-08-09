@@ -1,6 +1,8 @@
 package controllers
 
+import play.api.libs.json.{Json, Writes}
 import play.api.mvc.{AbstractController, ControllerComponents}
+import staff.StaffLocation.unapply
 import staff.{StaffLocation, StaffService}
 
 import javax.inject.{Inject, Singleton}
@@ -15,25 +17,30 @@ class StaffController @Inject() (
 ) extends AbstractController(cc)
     with JsonHttpResponse {
 
+  implicit val writes: Writes[StaffLocation] =
+    Writes.apply(a => Json.obj("name" -> a.toString, "id" -> unapply(a)))
+
   // TODO add caching via http header
-  def staffs(staffLocation: String) = Action.async { _ =>
+  def staffs(id: String) = Action.async { _ =>
     val res = for {
-      location <- Future.fromTry(parseStaffLocation(staffLocation))
+      location <- Future.fromTry(parseStaffLocation(id))
       staffs <- service.fetchStaff(location)
     } yield staffs
     okSeq(res)
   }
 
+  def allAvailable() = Action { _ =>
+    Ok(Json.toJson(StaffLocation.all()))
+  }
+
   private def parseStaffLocation(staff: String): Try[StaffLocation] =
-    staff.toLowerCase match {
-      case "gm" | "gummersbach"            => Success(StaffLocation.Gummersbach)
-      case "dz" | "deutz "                 => Success(StaffLocation.Deutz)
-      case "st" | "südstadt" | "suedstadt" => Success(StaffLocation.Suedstadt)
-      case "lev" | "leverkusen"            => Success(StaffLocation.Leverkusen)
-      case s =>
+    StaffLocation.apply(staff.toLowerCase) match {
+      case Some(value) =>
+        Success(value)
+      case None =>
         Failure(
           new Throwable(
-            s"staff parameter needs to be either 'gm', 'dz', 'st' or 'lev', but was $s"
+            s"invalid parameter. the following locations are supported: ${StaffLocation.all().map(unapply).mkString(",")}"
           )
         )
     }
