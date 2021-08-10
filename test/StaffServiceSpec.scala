@@ -13,7 +13,7 @@ final class StaffServiceSpec
     with BrowserSpec {
 
   private var fakeMaxResults: Future[Browser#DocumentType] =
-    Future.failed(new Throwable("TODO"))
+    Future.failed(new Throwable("provide implementation"))
 
   def updateMaxResultsWithFile(filename: String): Unit =
     fakeMaxResults = Future.fromTry(
@@ -36,7 +36,7 @@ final class StaffServiceSpec
         case StaffLocation.Suedstadt   => "st"
         case StaffLocation.Leverkusen  => "lev"
       }
-      Future.fromTry(Try(file(s"${loc}_persons_${batch}.html")))
+      Future.fromTry(Try(file(s"${loc}_persons_$batch.html")))
     }
   }
 
