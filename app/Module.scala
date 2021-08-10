@@ -1,6 +1,6 @@
 import com.google.inject.AbstractModule
 import mensa.{HttpMensaXMLProvider, MensaConfig, MensaXMLProvider}
-import noticeboard.NoticeBoardConfig
+import noticeboard.{NoticeBoardConfig, NoticeBoardDataProvider, NoticeBoardRSSFeedProvider}
 import staff.{HttpStaffHTMLProvider, StaffConfig, StaffHTMLProvider}
 
 class Module extends AbstractModule {
@@ -39,6 +39,10 @@ class Module extends AbstractModule {
 
     bind(classOf[MensaXMLProvider])
       .to(classOf[HttpMensaXMLProvider])
+      .asEagerSingleton()
+
+    bind(classOf[NoticeBoardDataProvider])
+      .to(classOf[NoticeBoardRSSFeedProvider])
       .asEagerSingleton()
   }
 }
