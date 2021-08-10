@@ -6,16 +6,16 @@ import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 import scala.xml.Elem
 
-trait MensaXMLProvider {
+trait MensaDataProvider {
   def mensaMenu(mensa: MensaLocation): Future[Elem]
   def legend(): Future[Elem]
 }
 
-class HttpMensaXMLProvider @Inject() (
+class MensaXMLProvider @Inject() (
     private val ws: WSClient,
     private val config: MensaConfig,
     private implicit val ctx: ExecutionContext
-) extends MensaXMLProvider {
+) extends MensaDataProvider {
 
   override def mensaMenu(mensa: MensaLocation): Future[Elem] =
     ws.url(url(mensa)).get().map(_.xml)

@@ -8,7 +8,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class MensaService @Inject() (
-    private val mensaProvider: MensaXMLProvider,
+    private val mensaProvider: MensaDataProvider,
     private val mensaParser: MensaParser,
     private val legendParser: LegendParser,
     private implicit val ctx: ExecutionContext

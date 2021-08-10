@@ -6,16 +6,16 @@ import play.api.libs.ws.WSClient
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-trait StaffHTMLProvider {
+trait StaffDataProvider {
   def maxResults(location: StaffLocation): Future[Browser#DocumentType]
   def staffs(location: StaffLocation, batch: Int): Future[Browser#DocumentType]
 }
 
-final class HttpStaffHTMLProvider @Inject() (
+final class StaffHTMLProvider @Inject() (
     private val ws: WSClient,
     private val config: StaffConfig,
     private implicit val ctx: ExecutionContext
-) extends StaffHTMLProvider {
+) extends StaffDataProvider {
 
   private val browser = JsoupBrowser()
 

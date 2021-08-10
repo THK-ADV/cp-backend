@@ -6,7 +6,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 final class StaffService @Inject() (
-    private val htmlProvider: StaffHTMLProvider,
+    private val htmlProvider: StaffDataProvider,
     private val parser: StaffParser,
     private implicit val ctx: ExecutionContext
 ) {

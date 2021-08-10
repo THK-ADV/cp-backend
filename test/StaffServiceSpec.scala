@@ -1,6 +1,6 @@
 import net.ruippeixotog.scalascraper.browser.Browser
 import play.api.inject.bind
-import staff.{StaffLocation, StaffService, StaffHTMLProvider}
+import staff.{StaffLocation, StaffService, StaffDataProvider}
 
 import scala.concurrent.Future
 import scala.util.Try
@@ -20,7 +20,7 @@ final class StaffServiceSpec
       Try(file(filename))
     )
 
-  class FakeXmlProvider extends StaffHTMLProvider {
+  class FakeXmlProvider extends StaffDataProvider {
 
     override def maxResults(
         location: StaffLocation
@@ -41,7 +41,7 @@ final class StaffServiceSpec
   }
 
   override protected def bindings = Seq(
-    bind(classOf[StaffHTMLProvider]).toInstance(new FakeXmlProvider())
+    bind(classOf[StaffDataProvider]).toInstance(new FakeXmlProvider())
   )
 
   val service = app.injector.instanceOf[StaffService]

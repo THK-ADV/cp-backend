@@ -1,7 +1,7 @@
 import com.google.inject.AbstractModule
-import mensa.{HttpMensaXMLProvider, MensaConfig, MensaXMLProvider}
+import mensa.{MensaXMLProvider, MensaConfig, MensaDataProvider}
 import noticeboard.{NoticeBoardConfig, NoticeBoardDataProvider, NoticeBoardRSSFeedProvider}
-import staff.{HttpStaffHTMLProvider, StaffConfig, StaffHTMLProvider}
+import staff.{StaffHTMLProvider, StaffConfig, StaffDataProvider}
 
 class Module extends AbstractModule {
   override def configure(): Unit = {
@@ -33,12 +33,12 @@ class Module extends AbstractModule {
         )
       )
 
-    bind(classOf[StaffHTMLProvider])
-      .to(classOf[HttpStaffHTMLProvider])
+    bind(classOf[StaffDataProvider])
+      .to(classOf[StaffHTMLProvider])
       .asEagerSingleton()
 
-    bind(classOf[MensaXMLProvider])
-      .to(classOf[HttpMensaXMLProvider])
+    bind(classOf[MensaDataProvider])
+      .to(classOf[MensaXMLProvider])
       .asEagerSingleton()
 
     bind(classOf[NoticeBoardDataProvider])
