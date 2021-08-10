@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0">
+    <channel>
+
+        <title><![CDATA[Schwarzes Brett – Informatik]]></title>
+        <link>http://www.th-koeln.de</link>
+        <description><![CDATA[Aktuelle Informationen für die Studiengänge der Informatik
+]]></description>
+        <language>de</language>
+        <managingEditor>info-gm@th-koeln.de</managingEditor>
+        <webMaster>support@campus-it.th-koeln.de</webMaster>
+        <pubDate>Mon, 09 Aug 2021 00:00:01 +0200</pubDate>
+        <copyright>© 2021 TH Köln</copyright>
+        <ttl>60</ttl>
+        <image>
+            <url></url>
+            <title><![CDATA[]]></title>
+            <link>http://www.th-koeln.de</link>
+        </image>
+
+
+        <item>
+            <title><![CDATA[Grundlagen des Web // mündliche Prüfung Seminarteil am 17.09.2021]]></title>
+            <link>
+                http://www.th-koeln.de/hochschule/grundlagen-des-web--muendliche-pruefung-seminarteil-am-17092021_86453.php
+            </link>
+            <description><![CDATA[
+        Grundlagen des Web // mündliche Prüfung Seminarteil am 17.09.2021]]></description>
+            <category>Nachricht</category>
+
+            <guid>
+                https://www.th-koeln.de/hochschule/grundlagen-des-web--muendliche-pruefung-seminarteil-am-17092021_86453.php
+            </guid>
+            <author>info-gm@th-koeln.de</author>
+            <pubDate>Fri, 23 Jul 2021 10:03:00 +0000</pubDate>
+        </item>
+
+        <item>
+            <title><![CDATA[Kaffeebar wieder geöffnet ]]></title>
+            <link>
+                http://www.th-koeln.de/hochschule/kaffeebar-wieder-geoeffnet-und-bafoeg-beratung-vor-ort-ab-150721_86030.php
+            </link>
+            <description><![CDATA[
+        und BAföG-Beratung vor Ort ab 15.07.21]]></description>
+            <category>Nachricht</category>
+
+            <guid>
+                https://www.th-koeln.de/hochschule/kaffeebar-wieder-geoeffnet-und-bafoeg-beratung-vor-ort-ab-150721_86030.php
+            </guid>
+            <author>info-gm@th-koeln.de</author>
+            <pubDate>Tue, 06 Jul 2021 13:25:00 +0000</pubDate>
+        </item>
+
+        <item>
+            <title><![CDATA[QQ-Kurs „Hybride Lehre gestalten“ ]]></title>
+            <link>http://www.th-koeln.de/hochschule/qq-kurs-hybride-lehre-gestalten-ab-sofort-online_85926.php</link>
+            <description><![CDATA[
+        Der Kurs ist ab sofort online; es gibt keine Teilnehmerbegrenzung]]></description>
+            <category>Nachricht</category>
+
+            <guid>https://www.th-koeln.de/hochschule/qq-kurs-hybride-lehre-gestalten-ab-sofort-online_85926.php</guid>
+            <author>info-gm@th-koeln.de</author>
+            <pubDate>Wed, 30 Jun 2021 09:20:00 +0000</pubDate>
+        </item>
+
+        <item>
+            <title>
+                <![CDATA[Sonderregelung "Zulassung zur Bachelorarbeit im Studiengang Wirtschaftsinformatik.....]]></title>
+            <link>
+                http://www.th-koeln.de/hochschule/sonderregelung-zulassung-zur-bachelorarbeit-im-studiengang-wirtschaftsinformatik_85908.php
+            </link>
+            <description><![CDATA[
+        ...bei ausstehender Prüfungsleistung „Betriebliche Anwendungssysteme I“ - Prof. Dr. Zapp]]></description>
+            <category>Nachricht</category>
+
+            <guid>
+                https://www.th-koeln.de/hochschule/sonderregelung-zulassung-zur-bachelorarbeit-im-studiengang-wirtschaftsinformatik_85908.php
+            </guid>
+            <author>info-gm@th-koeln.de</author>
+            <pubDate>Tue, 29 Jun 2021 09:08:00 +0000</pubDate>
+        </item>
+
+        <item>
+            <title>
+                <![CDATA[Keine Prüfungen in AP 1 (Prof. Dr. Frank Victor) im nächsten Prüfungszeitraum ab 19.07.2021]]></title>
+            <link>
+                http://www.th-koeln.de/hochschule/keine-pruefungen-in-ap-1-prof-dr-frank-victor-im-naechsten-pruefungszeitraum-ab-19072021_83631.php
+            </link>
+            <description><![CDATA[
+        Im Prüfungszeitraum ab 19.07.2021 wird keine Klausur in AP 1 angeboten, sondern erst wieder im Prüfungszeitraum ab dem 20.09.2021.
+
+Härtefälle, die sich im letzten Semester  befinden und für die dies eine Verlängerung des Studiums bedeuten würde, möchten sich bitte per Email bei frank.victor (at) th-koeln.de melden.]]></description>
+            <category>Nachricht</category>
+
+            <guid>
+                https://www.th-koeln.de/hochschule/keine-pruefungen-in-ap-1-prof-dr-frank-victor-im-naechsten-pruefungszeitraum-ab-19072021_83631.php
+            </guid>
+            <author>info-gm@th-koeln.de</author>
+            <pubDate>Wed, 14 Apr 2021 11:18:00 +0000</pubDate>
+        </item>
+
+        <item>
+            <title><![CDATA[(WPF) Steuern und Regeln in der Umwelttechnik]]></title>
+            <link>http://www.th-koeln.de/hochschule/wpf-steuern-und-regeln-in-der-umwelttechnik_83081.php</link>
+            <description><![CDATA[
+        WPF im SoSe 2021]]></description>
+            <category>Nachricht</category>
+
+            <guid>https://www.th-koeln.de/hochschule/wpf-steuern-und-regeln-in-der-umwelttechnik_83081.php</guid>
+            <author>info-gm@th-koeln.de</author>
+            <pubDate>Wed, 24 Mar 2021 10:51:00 +0000</pubDate>
+        </item>
+
+        <item>
+            <title><![CDATA[Änderungen in der Modulprüfung Qualitätsmanagement]]></title>
+            <link>http://www.th-koeln.de/hochschule/aenderungen-in-der-modulpruefung-qualitaetsmanagement_71200.php
+            </link>
+            <description><![CDATA[
+        ab dem Sommersemester 2020]]></description>
+            <category>Nachricht</category>
+
+            <guid>https://www.th-koeln.de/hochschule/aenderungen-in-der-modulpruefung-qualitaetsmanagement_71200.php
+            </guid>
+            <author>info-gm@th-koeln.de</author>
+            <pubDate>Thu, 19 Dec 2019 13:47:00 +0000</pubDate>
+        </item>
+
+
+    </channel>
+</rss>

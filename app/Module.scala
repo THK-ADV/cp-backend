@@ -1,5 +1,6 @@
 import com.google.inject.AbstractModule
 import mensa.{HttpMensaXMLProvider, MensaConfig, MensaXMLProvider}
+import noticeboard.NoticeBoardConfig
 import staff.{HttpStaffHTMLProvider, StaffConfig, StaffHTMLProvider}
 
 class Module extends AbstractModule {
@@ -22,6 +23,13 @@ class Module extends AbstractModule {
         MensaConfig(
           "https://www.max-manager.de/daten-extern/sw-koeln/slsys-xml",
           "https://www.max-manager.de/daten-extern/sw-koeln/slsys-xml/kstw/legende.xml"
+        )
+      )
+
+    bind(classOf[NoticeBoardConfig])
+      .toInstance(
+        noticeboard.NoticeBoardConfig(
+          "https://www.th-koeln.de/rss/"
         )
       )
 

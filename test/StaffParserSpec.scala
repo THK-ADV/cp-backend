@@ -10,7 +10,8 @@ class StaffParserSpec
 
   val parser = app.injector.instanceOf(classOf[StaffParser])
 
-  private def prefixUrl(suffix: String) = parser.config.detailUrlPrefix + suffix
+  private def prefixUrl(suffix: String): String =
+    parser.config.detailUrlPrefix + suffix
 
   "A Staff Parser Spec" should {
     "parse multiple entries in real life" in {
