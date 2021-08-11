@@ -1,13 +1,26 @@
 package mensa
 
-sealed trait MensaLocation
+sealed trait MensaLocation {
+  val label: String
+  val id: String = MensaLocation.unapply(this)
+}
 
 object MensaLocation {
-  case object Gummersbach extends MensaLocation
-  case object Deutz extends MensaLocation
-  case object Suedstadt extends MensaLocation
-  case object Claudiusstrasse extends MensaLocation
-  case object BistroDeutz extends MensaLocation
+  case object Gummersbach extends MensaLocation {
+    override val label = "Gummersbach"
+  }
+  case object Deutz extends MensaLocation {
+    override val label = "Deutz"
+  }
+  case object Suedstadt extends MensaLocation {
+    override val label = "Südstadt"
+  }
+  case object Claudiusstrasse extends MensaLocation {
+    override val label = "Claudiusstraße"
+  }
+  case object BistroDeutz extends MensaLocation {
+    override val label = "Bistro Deutz"
+  }
 
   def apply(str: String): Option[MensaLocation] = str match {
     case "gm"  => Some(Gummersbach)

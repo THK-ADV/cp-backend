@@ -1,6 +1,5 @@
 package controllers
 
-import mensa.MensaLocation._
 import mensa._
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.{AbstractController, ControllerComponents}
@@ -19,7 +18,7 @@ class MensaController @Inject() (
     with QueryStringParser {
 
   implicit val writes: Writes[MensaLocation] =
-    Writes.apply(a => Json.obj("name" -> a.toString, "id" -> unapply(a)))
+    Writes.apply(a => Json.obj("label" -> a.label, "id" -> a.id))
 
   def legend() = Action.async { _ =>
     okSeq(service.fetchLegend())
@@ -49,7 +48,7 @@ class MensaController @Inject() (
       case None =>
         Failure(
           new Throwable(
-            s"invalid parameter. the following locations are supported: ${MensaLocation.all().map(unapply).mkString(",")}"
+            s"invalid parameter. the following locations are supported: ${MensaLocation.all().map(_.id).mkString(",")}"
           )
         )
     }
