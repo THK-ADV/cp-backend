@@ -1,5 +1,6 @@
 package newsfeed
 
 case class NewsfeedConfig(
-    baseUrl: String
+    facultyBaseUrl: String,
+    generalUrl: String
 )

@@ -6,6 +6,9 @@ sealed trait Newsfeed {
 }
 
 object Newsfeed {
+  case object General extends Newsfeed {
+    override val label = "Allgemein TH Köln"
+  }
   case object F01 extends Newsfeed {
     override val label = "Angewandte Sozialwissenschaften"
   }
@@ -44,34 +47,36 @@ object Newsfeed {
   }
 
   def apply(str: String): Option[Newsfeed] = str.toLowerCase match {
-    case "f01" => Some(F01)
-    case "f02" => Some(F02)
-    case "f03" => Some(F03)
-    case "f04" => Some(F04)
-    case "f05" => Some(F05)
-    case "f06" => Some(F06)
-    case "f07" => Some(F07)
-    case "f08" => Some(F08)
-    case "f09" => Some(F09)
-    case "f10" => Some(F10)
-    case "f11" => Some(F11)
-    case "f12" => Some(F12)
-    case _     => None
+    case "f01"     => Some(F01)
+    case "f02"     => Some(F02)
+    case "f03"     => Some(F03)
+    case "f04"     => Some(F04)
+    case "f05"     => Some(F05)
+    case "f06"     => Some(F06)
+    case "f07"     => Some(F07)
+    case "f08"     => Some(F08)
+    case "f09"     => Some(F09)
+    case "f10"     => Some(F10)
+    case "f11"     => Some(F11)
+    case "f12"     => Some(F12)
+    case "general" => Some(General)
+    case _         => None
   }
 
   def unapply(arg: Newsfeed): String = arg match {
-    case F01 => "f01"
-    case F02 => "f02"
-    case F03 => "f03"
-    case F04 => "f04"
-    case F05 => "f05"
-    case F06 => "f06"
-    case F07 => "f07"
-    case F08 => "f08"
-    case F09 => "f09"
-    case F10 => "f10"
-    case F11 => "f11"
-    case F12 => "f12"
+    case F01     => "f01"
+    case F02     => "f02"
+    case F03     => "f03"
+    case F04     => "f04"
+    case F05     => "f05"
+    case F06     => "f06"
+    case F07     => "f07"
+    case F08     => "f08"
+    case F09     => "f09"
+    case F10     => "f10"
+    case F11     => "f11"
+    case F12     => "f12"
+    case General => "general"
   }
 
   def all(): List[Newsfeed] = List(
@@ -86,6 +91,7 @@ object Newsfeed {
     F09,
     F10,
     F11,
-    F12
+    F12,
+    General
   )
 }

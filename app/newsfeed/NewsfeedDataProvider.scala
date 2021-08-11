@@ -21,6 +21,8 @@ final class NewsfeedHTMLProvider @Inject() (
   override def newsfeed(feed: Newsfeed): Future[Browser#DocumentType] =
     ws.url(url(feed)).get().map(r => browser.parseString(r.body))
 
-  private def url(feed: Newsfeed): String =
-    config.baseUrl + feed.label.replace(' ', '+')
+  private def url(feed: Newsfeed): String = feed match {
+    case Newsfeed.General => config.generalUrl
+    case _                => config.facultyBaseUrl + feed.label.replace(' ', '+')
+  }
 }

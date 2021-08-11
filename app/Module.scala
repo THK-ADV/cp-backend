@@ -1,11 +1,7 @@
 import com.google.inject.AbstractModule
 import mensa.{MensaConfig, MensaDataProvider, MensaXMLProvider}
 import newsfeed.{NewsfeedConfig, NewsfeedDataProvider, NewsfeedHTMLProvider}
-import noticeboard.{
-  NoticeBoardConfig,
-  NoticeBoardDataProvider,
-  NoticeBoardRSSFeedProvider
-}
+import noticeboard.{NoticeBoardConfig, NoticeBoardDataProvider, NoticeBoardRSSFeedProvider}
 import staff.{StaffConfig, StaffDataProvider, StaffHTMLProvider}
 
 class Module extends AbstractModule {
@@ -41,7 +37,8 @@ class Module extends AbstractModule {
     bind(classOf[NewsfeedConfig])
       .toInstance(
         NewsfeedConfig(
-          "https://www.th-koeln.de/hochschule/nachrichten_232.php?faculty_de[]="
+          "https://www.th-koeln.de/hochschule/nachrichten_232.php?faculty_de[]=",
+          "https://www.th-koeln.de/hochschule/nachrichten_232.php"
         )
       )
 

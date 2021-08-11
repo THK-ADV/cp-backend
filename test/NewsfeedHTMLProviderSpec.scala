@@ -61,5 +61,8 @@ class NewsfeedHTMLProviderSpec extends AsyncSpec with ApplicationSpec {
     "fetch the html newsfeed for 'F12'" in {
       testDataProvider(Newsfeed.F12)(_.size shouldBe 50)
     }
+    "fetch the html newsfeed for 'General TH Köln'" in {
+      testDataProvider(Newsfeed.General)(_.size shouldBe 50)
+    }
   }
 }
