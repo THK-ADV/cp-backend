@@ -1,16 +1,35 @@
 package noticeboard
 
-sealed trait NoticeBoardFeed
+sealed trait NoticeBoardFeed {
+  val label: String
+  val id: String = NoticeBoardFeed.unapply(this)
+}
 
 object NoticeBoardFeed {
-  case object Informatik extends NoticeBoardFeed
-  case object Ingenieurwissenschaften extends NoticeBoardFeed
-  case object Maschinenbau extends NoticeBoardFeed
-  case object Wirtschaftsingenieurwesen extends NoticeBoardFeed
-  case object Produktdesign extends NoticeBoardFeed
-  case object Prozessentwicklung extends NoticeBoardFeed
-  case object Elektrotechnik extends NoticeBoardFeed
-  case object AutomationAndIT extends NoticeBoardFeed
+  case object Informatik extends NoticeBoardFeed {
+    override val label = "Informatik"
+  }
+  case object Ingenieurwissenschaften extends NoticeBoardFeed {
+    override val label = "Ingenieurwissenschaften"
+  }
+  case object Maschinenbau extends NoticeBoardFeed {
+    override val label = "Maschinenbau"
+  }
+  case object Wirtschaftsingenieurwesen extends NoticeBoardFeed {
+    override val label = "Wirtschaftsingenieurwesen"
+  }
+  case object Produktdesign extends NoticeBoardFeed {
+    override val label = "Produktdesign"
+  }
+  case object Prozessentwicklung extends NoticeBoardFeed {
+    override val label = "Prozessentwicklung"
+  }
+  case object Elektrotechnik extends NoticeBoardFeed {
+    override val label = "Elektrotechnik"
+  }
+  case object AutomationAndIT extends NoticeBoardFeed {
+    override val label = "Automation and IT"
+  }
 
   def apply(str: String): Option[NoticeBoardFeed] = str match {
     case "inf"  => Some(Informatik)

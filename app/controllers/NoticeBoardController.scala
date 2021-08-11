@@ -1,6 +1,5 @@
 package controllers
 
-import noticeboard.NoticeBoardFeed.unapply
 import noticeboard.{
   NoticeBoard,
   NoticeBoardEntry,
@@ -24,7 +23,7 @@ class NoticeBoardController @Inject() (
     with LocalDateTimeFormat {
 
   implicit val writesFeed: Writes[NoticeBoardFeed] =
-    Writes.apply(a => Json.obj("name" -> a.toString, "id" -> unapply(a)))
+    Writes.apply(a => Json.obj("label" -> a.label, "id" -> a.id))
 
   implicit val writesEntry: Writes[NoticeBoardEntry] =
     Json.writes[NoticeBoardEntry]
@@ -50,7 +49,7 @@ class NoticeBoardController @Inject() (
       case None =>
         Failure(
           new Throwable(
-            s"invalid parameter. the following feeds are supported: ${NoticeBoardFeed.all().map(unapply).mkString(",")}"
+            s"invalid parameter. the following feeds are supported: ${NoticeBoardFeed.all().map(_.id).mkString(",")}"
           )
         )
     }
