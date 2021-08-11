@@ -8,6 +8,11 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
+object StaffController {
+  implicit val staffLocationWrites: Writes[StaffLocation] =
+    Writes.apply(a => Json.obj("label" -> a.label, "id" -> a.id))
+}
+
 @Singleton
 class StaffController @Inject() (
     cc: ControllerComponents,
@@ -16,8 +21,7 @@ class StaffController @Inject() (
 ) extends AbstractController(cc)
     with JsonHttpResponse {
 
-  implicit val writes: Writes[StaffLocation] =
-    Writes.apply(a => Json.obj("label" -> a.label, "id" -> a.id))
+  import StaffController.staffLocationWrites
 
   // TODO add caching via http header
   def staffs(id: String) = Action.async { _ =>

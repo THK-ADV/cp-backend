@@ -8,19 +8,23 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
+object NewsfeedController extends JsonNullWritable {
+  implicit val newsfeedWrites: Writes[Newsfeed] =
+    Writes.apply(a => Json.obj("label" -> a.label, "id" -> a.id))
+
+  implicit val newsfeedEntryWrites: Writes[NewsfeedEntry] =
+    Json.writes[NewsfeedEntry]
+}
+
 @Singleton
 class NewsfeedController @Inject() (
     cc: ControllerComponents,
     val service: NewsfeedService,
     implicit val ctx: ExecutionContext
 ) extends AbstractController(cc)
-    with JsonHttpResponse
-    with JsonNullWritable {
+    with JsonHttpResponse {
 
-  implicit val writesFeed: Writes[Newsfeed] =
-    Writes.apply(a => Json.obj("label" -> a.label, "id" -> a.id))
-
-  implicit val writesEntry: Writes[NewsfeedEntry] = Json.writes[NewsfeedEntry]
+  import NewsfeedController._
 
   def newsfeed(id: String) = Action.async { _ =>
     val res = for {

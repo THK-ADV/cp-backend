@@ -4,6 +4,9 @@
 
 # Home page
 GET        /                       controllers.IndexController.index()
+
+GET        /settings               controllers.SettingsController.settings()
+
 GET        /mensa                  controllers.MensaController.allAvailable()
 GET        /mensa/:id              controllers.MensaController.mensa(id)
 GET        /legend                 controllers.MensaController.legend()

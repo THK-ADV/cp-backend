@@ -13,22 +13,25 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
+object NoticeBoardController extends LocalDateTimeFormat {
+  implicit val noticeBoardFeedWrites: Writes[NoticeBoardFeed] =
+    Writes.apply(a => Json.obj("label" -> a.label, "id" -> a.id))
+
+  implicit val noticeBoardEntryFeedWrites: Writes[NoticeBoardEntry] =
+    Json.writes[NoticeBoardEntry]
+
+  implicit val noticeBoardWrites: Writes[NoticeBoard] = Json.writes[NoticeBoard]
+}
+
 @Singleton
 class NoticeBoardController @Inject() (
     cc: ControllerComponents,
     val service: NoticeBoardService,
     implicit val ctx: ExecutionContext
 ) extends AbstractController(cc)
-    with JsonHttpResponse
-    with LocalDateTimeFormat {
+    with JsonHttpResponse {
 
-  implicit val writesFeed: Writes[NoticeBoardFeed] =
-    Writes.apply(a => Json.obj("label" -> a.label, "id" -> a.id))
-
-  implicit val writesEntry: Writes[NoticeBoardEntry] =
-    Json.writes[NoticeBoardEntry]
-
-  implicit val writesBoard: Writes[NoticeBoard] = Json.writes[NoticeBoard]
+  import NoticeBoardController._
 
   def noticeBoard(id: String) = Action.async { _ =>
     val res = for {

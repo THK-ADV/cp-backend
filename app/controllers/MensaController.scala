@@ -8,6 +8,11 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
+object MensaController {
+  implicit val mensaLocationWrites: Writes[MensaLocation] =
+    Writes.apply(a => Json.obj("label" -> a.label, "id" -> a.id))
+}
+
 @Singleton
 class MensaController @Inject() (
     cc: ControllerComponents,
@@ -17,8 +22,7 @@ class MensaController @Inject() (
     with JsonHttpResponse
     with QueryStringParser {
 
-  implicit val writes: Writes[MensaLocation] =
-    Writes.apply(a => Json.obj("label" -> a.label, "id" -> a.id))
+  import MensaController.mensaLocationWrites
 
   def legend() = Action.async { _ =>
     okSeq(service.fetchLegend())
