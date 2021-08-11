@@ -2,7 +2,6 @@ package controllers
 
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.{AbstractController, ControllerComponents}
-import staff.StaffLocation.unapply
 import staff.{StaffLocation, StaffService}
 
 import javax.inject.{Inject, Singleton}
@@ -18,7 +17,7 @@ class StaffController @Inject() (
     with JsonHttpResponse {
 
   implicit val writes: Writes[StaffLocation] =
-    Writes.apply(a => Json.obj("name" -> a.toString, "id" -> unapply(a)))
+    Writes.apply(a => Json.obj("label" -> a.label, "id" -> a.id))
 
   // TODO add caching via http header
   def staffs(id: String) = Action.async { _ =>
@@ -40,7 +39,7 @@ class StaffController @Inject() (
       case None =>
         Failure(
           new Throwable(
-            s"invalid parameter. the following locations are supported: ${StaffLocation.all().map(unapply).mkString(",")}"
+            s"invalid parameter. the following locations are supported: ${StaffLocation.all().map(_.id).mkString(",")}"
           )
         )
     }
