@@ -1,7 +1,12 @@
 import com.google.inject.AbstractModule
-import mensa.{MensaXMLProvider, MensaConfig, MensaDataProvider}
-import noticeboard.{NoticeBoardConfig, NoticeBoardDataProvider, NoticeBoardRSSFeedProvider}
-import staff.{StaffHTMLProvider, StaffConfig, StaffDataProvider}
+import mensa.{MensaConfig, MensaDataProvider, MensaXMLProvider}
+import newsfeed.{NewsfeedConfig, NewsfeedDataProvider, NewsfeedHTMLProvider}
+import noticeboard.{
+  NoticeBoardConfig,
+  NoticeBoardDataProvider,
+  NoticeBoardRSSFeedProvider
+}
+import staff.{StaffConfig, StaffDataProvider, StaffHTMLProvider}
 
 class Module extends AbstractModule {
   override def configure(): Unit = {
@@ -28,8 +33,15 @@ class Module extends AbstractModule {
 
     bind(classOf[NoticeBoardConfig])
       .toInstance(
-        noticeboard.NoticeBoardConfig(
+        NoticeBoardConfig(
           "https://www.th-koeln.de/rss/"
+        )
+      )
+
+    bind(classOf[NewsfeedConfig])
+      .toInstance(
+        NewsfeedConfig(
+          "https://www.th-koeln.de/hochschule/nachrichten_232.php?faculty_de[]="
         )
       )
 
@@ -43,6 +55,10 @@ class Module extends AbstractModule {
 
     bind(classOf[NoticeBoardDataProvider])
       .to(classOf[NoticeBoardRSSFeedProvider])
+      .asEagerSingleton()
+
+    bind(classOf[NewsfeedDataProvider])
+      .to(classOf[NewsfeedHTMLProvider])
       .asEagerSingleton()
   }
 }
