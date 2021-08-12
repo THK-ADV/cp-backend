@@ -1,4 +1,5 @@
 import com.google.inject.AbstractModule
+import di.ZSBConfigProvider
 import mensa.{MensaConfig, MensaDataProvider, MensaXMLProvider}
 import newsfeed.{NewsfeedConfig, NewsfeedDataProvider, NewsfeedHTMLProvider}
 import noticeboard.{
@@ -48,19 +49,7 @@ class Module extends AbstractModule {
       )
 
     bind(classOf[ZSBConfig])
-      .toInstance(
-        zsb.ZSBConfig(
-          "https://www.th-koeln.de/studium/angebote-fuer-studierende_20698.php",
-          url =>
-            if (
-              url.startsWith("/studium") && !url
-                .startsWith("https://www.th-koeln.de")
-            )
-              "https://www.th-koeln.de" + url
-            else
-              url
-        )
-      )
+      .toProvider(classOf[ZSBConfigProvider])
 
     bind(classOf[StaffDataProvider])
       .to(classOf[StaffHTMLProvider])

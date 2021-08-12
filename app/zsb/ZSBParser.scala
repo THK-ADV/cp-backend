@@ -7,19 +7,6 @@ import net.ruippeixotog.scalascraper.model.Element
 
 import javax.inject.{Inject, Singleton}
 
-case class ZSBEntry(
-    title: String,
-    body: String,
-    detailUrl: String,
-    imgUrl: Option[String]
-)
-
-case class ZSBFeed(
-    title: String,
-    description: String,
-    entries: List[ZSBEntry]
-)
-
 @Singleton
 class ZSBParser @Inject() (val config: ZSBConfig) {
 
@@ -48,9 +35,9 @@ class ZSBParser @Inject() (val config: ZSBConfig) {
       val imgUrl = elem >?> attr("src")("img")
       ZSBEntry(
         title,
-        body.dropRight(5),
+        body.dropRight(5), // drop _Mehr
         config.normalizeDetailUrl(detailUrl),
-        imgUrl
-      ) // drop _Mehr
+        imgUrl.map(config.normalizeImageUrl)
+      )
     }
 }
