@@ -27,5 +27,5 @@ class NewsfeedParser @Inject() (val config: NewsfeedConfig) {
   private def parseBody(elem: Element): String =
     (elem >> elements("p"))
       .find(p => !p.hasAttr("class"))
-      .fold("")(_.text.dropRight(5)) // _Mehr
+      .fold("")(_.text.dropRight(5)) // drop _Mehr
 }

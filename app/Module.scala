@@ -1,8 +1,13 @@
 import com.google.inject.AbstractModule
 import mensa.{MensaConfig, MensaDataProvider, MensaXMLProvider}
 import newsfeed.{NewsfeedConfig, NewsfeedDataProvider, NewsfeedHTMLProvider}
-import noticeboard.{NoticeBoardConfig, NoticeBoardDataProvider, NoticeBoardRSSFeedProvider}
+import noticeboard.{
+  NoticeBoardConfig,
+  NoticeBoardDataProvider,
+  NoticeBoardRSSFeedProvider
+}
 import staff.{StaffConfig, StaffDataProvider, StaffHTMLProvider}
+import zsb.ZSBConfig
 
 class Module extends AbstractModule {
   override def configure(): Unit = {
@@ -39,6 +44,21 @@ class Module extends AbstractModule {
         NewsfeedConfig(
           "https://www.th-koeln.de/hochschule/nachrichten_232.php?faculty_de[]=",
           "https://www.th-koeln.de/hochschule/nachrichten_232.php"
+        )
+      )
+
+    bind(classOf[ZSBConfig])
+      .toInstance(
+        zsb.ZSBConfig(
+          "https://www.th-koeln.de/studium/angebote-fuer-studierende_20698.php",
+          url =>
+            if (
+              url.startsWith("/studium") && !url
+                .startsWith("https://www.th-koeln.de")
+            )
+              "https://www.th-koeln.de" + url
+            else
+              url
         )
       )
 
