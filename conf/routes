@@ -18,8 +18,8 @@ GET        /legend                 controllers.MensaController.legend()
 GET        /staff                  controllers.StaffController.allAvailable()
 GET        /staff/:id              controllers.StaffController.staffs(id)
 
-GET        /noticeBoard            controllers.NoticeBoardController.allAvailable()
-GET        /noticeBoard/:id        controllers.NoticeBoardController.noticeBoard(id)
+GET        /noticeboard            controllers.NoticeboardController.allAvailable()
+GET        /noticeboard/:id        controllers.NoticeboardController.noticeboard(id)
 
 GET        /newsfeed               controllers.NewsfeedController.allAvailable()
 GET        /newsfeed/:id           controllers.NewsfeedController.newsfeed(id)

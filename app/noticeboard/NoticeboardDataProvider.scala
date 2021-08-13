@@ -1,30 +1,30 @@
 package noticeboard
 
 import net.ruippeixotog.scalascraper.browser.{Browser, JsoupBrowser}
-import noticeboard.NoticeBoardFeed._
+import noticeboard.NoticeboardFeed._
 import play.api.libs.ws.WSClient
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-trait NoticeBoardDataProvider {
-  def noticeBoard(feed: NoticeBoardFeed): Future[Browser#DocumentType]
+trait NoticeboardDataProvider {
+  def noticeboard(feed: NoticeboardFeed): Future[Browser#DocumentType]
 }
 
-final class NoticeBoardRSSFeedProvider @Inject() (
+final class NoticeboardRSSFeedProvider @Inject() (
     private val ws: WSClient,
-    private val config: NoticeBoardConfig,
+    private val config: NoticeboardConfig,
     private implicit val ctx: ExecutionContext
-) extends NoticeBoardDataProvider {
+) extends NoticeboardDataProvider {
 
   private val browser = JsoupBrowser()
 
-  override def noticeBoard(
-      feed: NoticeBoardFeed
+  override def noticeboard(
+      feed: NoticeboardFeed
   ): Future[Browser#DocumentType] =
     ws.url(url(feed)).get().map(r => browser.parseString(r.body))
 
-  private def url(feed: NoticeBoardFeed): String = {
+  private def url(feed: NoticeboardFeed): String = {
     val suffix = feed match {
       case Informatik =>
         "schwarzes-brett--informatik_33871.php"

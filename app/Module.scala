@@ -3,9 +3,9 @@ import di.ZSBConfigProvider
 import mensa.{MensaConfig, MensaDataProvider, MensaXMLProvider}
 import newsfeed.{NewsfeedConfig, NewsfeedDataProvider, NewsfeedHTMLProvider}
 import noticeboard.{
-  NoticeBoardConfig,
-  NoticeBoardDataProvider,
-  NoticeBoardRSSFeedProvider
+  NoticeboardConfig,
+  NoticeboardDataProvider,
+  NoticeboardRSSFeedProvider
 }
 import staff.{StaffConfig, StaffDataProvider, StaffHTMLProvider}
 import zsb.{ZSBConfig, ZSBContact, ZSBDataProvider, ZSBHTMLProvider}
@@ -33,9 +33,9 @@ class Module extends AbstractModule {
         )
       )
 
-    bind(classOf[NoticeBoardConfig])
+    bind(classOf[NoticeboardConfig])
       .toInstance(
-        NoticeBoardConfig(
+        NoticeboardConfig(
           "https://www.th-koeln.de/rss/"
         )
       )
@@ -68,8 +68,8 @@ class Module extends AbstractModule {
       .to(classOf[MensaXMLProvider])
       .asEagerSingleton()
 
-    bind(classOf[NoticeBoardDataProvider])
-      .to(classOf[NoticeBoardRSSFeedProvider])
+    bind(classOf[NoticeboardDataProvider])
+      .to(classOf[NoticeboardRSSFeedProvider])
       .asEagerSingleton()
 
     bind(classOf[NewsfeedDataProvider])

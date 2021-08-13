@@ -1,7 +1,7 @@
 package noticeboard
 
-case class NoticeBoard(
+case class Noticeboard(
     title: String,
     description: String,
-    entries: List[NoticeBoardEntry]
+    entries: List[NoticeboardEntry]
 )

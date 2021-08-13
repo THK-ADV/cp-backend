@@ -1,5 +1,5 @@
 package noticeboard
 
-case class NoticeBoardConfig(
+case class NoticeboardConfig(
     baseUrl: String
 )

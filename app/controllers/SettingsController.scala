@@ -2,7 +2,7 @@ package controllers
 
 import mensa.MensaLocation
 import newsfeed.Newsfeed
-import noticeboard.NoticeBoardFeed
+import noticeboard.NoticeboardFeed
 import play.api.libs.json.Json
 import play.api.mvc.{AbstractController, ControllerComponents}
 import staff.StaffLocation
@@ -18,7 +18,7 @@ class SettingsController @Inject() (
 
   import MensaController.mensaLocationWrites
   import NewsfeedController.newsfeedWrites
-  import NoticeBoardController.noticeBoardFeedWrites
+  import NoticeboardController.noticeboardFeedWrites
   import StaffController.staffLocationWrites
 
   def settings() = Action { _ =>
@@ -26,7 +26,7 @@ class SettingsController @Inject() (
       Json.obj(
         "mensaLocation" -> MensaLocation.all(),
         "newsfeed" -> Newsfeed.all(),
-        "noticeBoardFeed" -> NoticeBoardFeed.all(),
+        "noticeBoardFeed" -> NoticeboardFeed.all(),
         "staffLocation" -> StaffLocation.all()
       )
     )
@@ -41,7 +41,7 @@ class SettingsController @Inject() (
   }
 
   def noticeboard() = Action { _ =>
-    Ok(Json.toJson(NoticeBoardFeed.all()))
+    Ok(Json.toJson(NoticeboardFeed.all()))
   }
 
   def staff() = Action { _ =>

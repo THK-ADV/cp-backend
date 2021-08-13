@@ -11,14 +11,14 @@ import javax.inject.{Inject, Singleton}
 import scala.util.Try
 
 @Singleton
-class NoticeBoardParser @Inject() (val config: NoticeBoardConfig) {
+class NoticeboardParser @Inject() (val config: NoticeboardConfig) {
 
   private val formatter = DateTimeFormat
     .forPattern("EEE, dd MMM yyyy HH:mm:ss Z")
     .withLocale(Locale.US)
 
-  def parse(doc: Browser#DocumentType): NoticeBoard =
-    NoticeBoard(
+  def parse(doc: Browser#DocumentType): Noticeboard =
+    Noticeboard(
       removeCDATA(doc >> text("channel title")).trim,
       removeCDATA(doc >> text("channel description")).trim,
       (doc >> elements("channel item"))
@@ -26,9 +26,9 @@ class NoticeBoardParser @Inject() (val config: NoticeBoardConfig) {
         .toList
     )
 
-  def parseEntry(elem: Element): Option[NoticeBoardEntry] =
+  def parseEntry(elem: Element): Option[NoticeboardEntry] =
     Try(formatter.parseLocalDateTime(elem >> text("pubDate"))).map { date =>
-      NoticeBoardEntry(
+      NoticeboardEntry(
         removeCDATA(elem >> text("title")).trim,
         removeCDATA(elem >> text("description")).trim,
         elem >> text("guid"),

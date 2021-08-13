@@ -1,9 +1,9 @@
 import net.ruippeixotog.scalascraper.browser.Browser
-import noticeboard.NoticeBoardFeed._
+import noticeboard.NoticeboardFeed._
 import noticeboard.{
-  NoticeBoardDataProvider,
-  NoticeBoardFeed,
-  NoticeBoardService
+  NoticeboardDataProvider,
+  NoticeboardFeed,
+  NoticeboardService
 }
 import play.api.inject.bind
 
@@ -11,15 +11,15 @@ import scala.concurrent.Future
 import scala.util.Try
 import scala.util.control.NonFatal
 
-class NoticeBoardServiceSpec
+class NoticeboardServiceSpec
     extends AsyncSpec
     with ApplicationSpec
     with FileSpec
     with BrowserSpec {
 
-  class FakeRSSProvider extends NoticeBoardDataProvider {
-    override def noticeBoard(
-        feed: NoticeBoardFeed
+  class FakeRSSProvider extends NoticeboardDataProvider {
+    override def noticeboard(
+        feed: NoticeboardFeed
     ): Future[Browser#DocumentType] = {
       val filename = feed match {
         case Informatik              => "pinboard_inf.xml"
@@ -34,15 +34,15 @@ class NoticeBoardServiceSpec
   }
 
   override protected def bindings = Seq(
-    bind(classOf[NoticeBoardDataProvider]).toInstance(new FakeRSSProvider())
+    bind(classOf[NoticeboardDataProvider]).toInstance(new FakeRSSProvider())
   )
 
-  val service = app.injector.instanceOf[NoticeBoardService]
+  val service = app.injector.instanceOf[NoticeboardService]
 
   "A NoticeBoardService" should {
-    "fetch notice board for 'Informatik'" in {
+    "fetch noticeboard for 'Informatik'" in {
       service
-        .fetchNoticeBoard(NoticeBoardFeed.Informatik)
+        .fetchNoticeboard(NoticeboardFeed.Informatik)
         .map { b =>
           b.title shouldBe "Schwarzes Brett – Informatik"
           b.entries.size shouldBe 7
@@ -50,9 +50,9 @@ class NoticeBoardServiceSpec
         .recover { case NonFatal(e) => fail(s"expected result, but was $e") }
     }
 
-    "fetch notice board for 'Grundstudium Ingenieurwissenschaften'" in {
+    "fetch noticeboard for 'Grundstudium Ingenieurwissenschaften'" in {
       service
-        .fetchNoticeBoard(NoticeBoardFeed.Ingenieurwissenschaften)
+        .fetchNoticeboard(NoticeboardFeed.Ingenieurwissenschaften)
         .map { b =>
           b.title shouldBe "Schwarzes Brett - Ingenieurwissenschaften Grundstudium"
           b.entries.size shouldBe 16
@@ -60,9 +60,9 @@ class NoticeBoardServiceSpec
         .recover { case NonFatal(e) => fail(s"expected result, but was $e") }
     }
 
-    "fetch notice board for 'Maschinenbau, Wirtschaftsingenieurwesen, Produktdesign und Prozessentwicklung'" in {
+    "fetch noticeboard for 'Maschinenbau, Wirtschaftsingenieurwesen, Produktdesign und Prozessentwicklung'" in {
       service
-        .fetchNoticeBoard(NoticeBoardFeed.Maschinenbau)
+        .fetchNoticeboard(NoticeboardFeed.Maschinenbau)
         .map { b =>
           b.title shouldBe "Schwarzes Brett –  Maschinenbau, Wirtschaftsingenieurwesen, Produktdesign und Prozessentwicklung"
           b.entries.size shouldBe 16
@@ -70,9 +70,9 @@ class NoticeBoardServiceSpec
         .recover { case NonFatal(e) => fail(s"expected result, but was $e") }
     }
 
-    "fetch notice board for 'Elektrotechnik und Automation and IT'" in {
+    "fetch noticeboard for 'Elektrotechnik und Automation and IT'" in {
       service
-        .fetchNoticeBoard(NoticeBoardFeed.Elektrotechnik)
+        .fetchNoticeboard(NoticeboardFeed.Elektrotechnik)
         .map { b =>
           b.title shouldBe "Schwarzes Brett – Elektrotechnik und Automation and IT"
           b.entries.size shouldBe 20

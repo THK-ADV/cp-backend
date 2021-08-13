@@ -1,37 +1,37 @@
 package noticeboard
 
-sealed trait NoticeBoardFeed {
+sealed trait NoticeboardFeed {
   val label: String
-  val id: String = NoticeBoardFeed.unapply(this)
+  val id: String = NoticeboardFeed.unapply(this)
 }
 
-object NoticeBoardFeed {
-  case object Informatik extends NoticeBoardFeed {
+object NoticeboardFeed {
+  case object Informatik extends NoticeboardFeed {
     override val label = "Informatik"
   }
-  case object Ingenieurwissenschaften extends NoticeBoardFeed {
+  case object Ingenieurwissenschaften extends NoticeboardFeed {
     override val label = "Ingenieurwissenschaften"
   }
-  case object Maschinenbau extends NoticeBoardFeed {
+  case object Maschinenbau extends NoticeboardFeed {
     override val label = "Maschinenbau"
   }
-  case object Wirtschaftsingenieurwesen extends NoticeBoardFeed {
+  case object Wirtschaftsingenieurwesen extends NoticeboardFeed {
     override val label = "Wirtschaftsingenieurwesen"
   }
-  case object Produktdesign extends NoticeBoardFeed {
+  case object Produktdesign extends NoticeboardFeed {
     override val label = "Produktdesign"
   }
-  case object Prozessentwicklung extends NoticeBoardFeed {
+  case object Prozessentwicklung extends NoticeboardFeed {
     override val label = "Prozessentwicklung"
   }
-  case object Elektrotechnik extends NoticeBoardFeed {
+  case object Elektrotechnik extends NoticeboardFeed {
     override val label = "Elektrotechnik"
   }
-  case object AutomationAndIT extends NoticeBoardFeed {
+  case object AutomationAndIT extends NoticeboardFeed {
     override val label = "Automation and IT"
   }
 
-  def apply(str: String): Option[NoticeBoardFeed] = str match {
+  def apply(str: String): Option[NoticeboardFeed] = str match {
     case "inf"  => Some(Informatik)
     case "ing"  => Some(Ingenieurwissenschaften)
     case "mb"   => Some(Maschinenbau)
@@ -43,7 +43,7 @@ object NoticeBoardFeed {
     case _      => None
   }
 
-  def unapply(arg: NoticeBoardFeed): String = arg match {
+  def unapply(arg: NoticeboardFeed): String = arg match {
     case Informatik                => "inf"
     case Ingenieurwissenschaften   => "ing"
     case Maschinenbau              => "mb"
@@ -54,7 +54,7 @@ object NoticeBoardFeed {
     case AutomationAndIT           => "ait"
   }
 
-  def all(): List[NoticeBoardFeed] = List(
+  def all(): List[NoticeboardFeed] = List(
     Informatik,
     Ingenieurwissenschaften,
     Maschinenbau,
