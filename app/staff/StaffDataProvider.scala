@@ -31,6 +31,7 @@ final class StaffHTMLProvider @Inject() (
     case StaffLocation.Suedstadt   => "S%C3%BCdstadt"
     case StaffLocation.Leverkusen  => "Leverkusen"
   }
+
   override def maxResults(
       location: StaffLocation
   ): Future[Browser#DocumentType] =

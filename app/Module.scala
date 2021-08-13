@@ -1,8 +1,14 @@
 import com.google.inject.AbstractModule
+import di.ZSBConfigProvider
 import mensa.{MensaConfig, MensaDataProvider, MensaXMLProvider}
 import newsfeed.{NewsfeedConfig, NewsfeedDataProvider, NewsfeedHTMLProvider}
-import noticeboard.{NoticeBoardConfig, NoticeBoardDataProvider, NoticeBoardRSSFeedProvider}
+import noticeboard.{
+  NoticeBoardConfig,
+  NoticeBoardDataProvider,
+  NoticeBoardRSSFeedProvider
+}
 import staff.{StaffConfig, StaffDataProvider, StaffHTMLProvider}
+import zsb.{ZSBConfig, ZSBContact, ZSBDataProvider, ZSBHTMLProvider}
 
 class Module extends AbstractModule {
   override def configure(): Unit = {
@@ -42,6 +48,18 @@ class Module extends AbstractModule {
         )
       )
 
+    bind(classOf[ZSBContact])
+      .toInstance(
+        ZSBContact(
+          "Fragen rund ums Studium? Für eine individuelle Beratung stehen wir Ihnen gerne persönlich zur Verfügung.",
+          "tel:+4922182755500",
+          "mailto:studieninfos@th-koeln.de"
+        )
+      )
+
+    bind(classOf[ZSBConfig])
+      .toProvider(classOf[ZSBConfigProvider])
+
     bind(classOf[StaffDataProvider])
       .to(classOf[StaffHTMLProvider])
       .asEagerSingleton()
@@ -56,6 +74,10 @@ class Module extends AbstractModule {
 
     bind(classOf[NewsfeedDataProvider])
       .to(classOf[NewsfeedHTMLProvider])
+      .asEagerSingleton()
+
+    bind(classOf[ZSBDataProvider])
+      .to(classOf[ZSBHTMLProvider])
       .asEagerSingleton()
   }
 }
