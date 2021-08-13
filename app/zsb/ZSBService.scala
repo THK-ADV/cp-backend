@@ -11,6 +11,8 @@ final class ZSBService @Inject() (
     private implicit val ctx: ExecutionContext
 ) {
 
+  import ops.Ops.toFuture
+
   def fetchZSBFeed(): Future[(ZSBFeed, ZSBContactInfo)] =
     for {
       doc <- dataProvider.zsbFeed()
@@ -23,11 +25,4 @@ final class ZSBService @Inject() (
         ZSBAction("Email", contactInfo.email)
       )
     )
-
-  private def toFuture[A](e: Either[String, A]): Future[A] = e match {
-    case Right(a) =>
-      Future.successful(a)
-    case Left(err) =>
-      Future.failed(new Throwable(err))
-  }
 }

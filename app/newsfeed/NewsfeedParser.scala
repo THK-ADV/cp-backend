@@ -11,21 +11,21 @@ import javax.inject.{Inject, Singleton}
 class NewsfeedParser @Inject() (val config: NewsfeedConfig) {
 
   def parse(doc: Browser#DocumentType): List[NewsfeedEntry] =
-    (doc >?> element("div #filterlistresult"))
-      .fold(List.empty[NewsfeedEntry])(div =>
-        (div >> elements("li")).map(parseEntry).toList
-      )
+    (doc >> elementList("div #filterlistresult li"))
+      .flatMap(parseEntry)
 
-  def parseEntry(elem: Element): NewsfeedEntry =
-    NewsfeedEntry(
-      (elem >> text("h2")),
-      parseBody(elem),
-      elem >> attr("href")("a"),
-      elem >?> attr("src")("img")
-    )
+  def parseEntry(elem: Element): Option[NewsfeedEntry] =
+    for {
+      title <- elem >?> text("h2")
+      body <- parseBody(elem)
+      detailUrl <- elem >?> attr("href")("a")
+    } yield {
+      val imgUrl = elem >?> attr("src")("img")
+      NewsfeedEntry(title, body, detailUrl, imgUrl)
+    }
 
-  private def parseBody(elem: Element): String =
+  private def parseBody(elem: Element): Option[String] =
     (elem >> elements("p"))
       .find(p => !p.hasAttr("class"))
-      .fold("")(_.text.dropRight(5)) // drop _Mehr
+      .map(_.text.dropRight(5)) // drop _Mehr
 }

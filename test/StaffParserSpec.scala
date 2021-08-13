@@ -173,10 +173,10 @@ class StaffParserSpec
 
       parser
         .parseMaxResults(xml1)
-        .isEmpty shouldBe true
+        .isLeft shouldBe true
       parser
         .parseMaxResults(xml2)
-        .isEmpty shouldBe true
+        .isLeft shouldBe true
     }
   }
 }

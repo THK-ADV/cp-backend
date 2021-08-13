@@ -9,6 +9,9 @@ final class NoticeboardService @Inject() (
     private val parser: NoticeboardParser,
     private implicit val ctx: ExecutionContext
 ) {
+
+  import ops.Ops.toFuture
+
   def fetchNoticeboard(feed: NoticeboardFeed): Future[Noticeboard] =
-    dataProvider.noticeboard(feed).map(parser.parse)
+    dataProvider.noticeboard(feed).flatMap(a => toFuture(parser.parse(a)))
 }

@@ -59,7 +59,7 @@ class NoticeboardParserSpec
           )
         )
       )
-      val res = parser.parse(file("pinboard_inf.xml"))
+      val res = parser.parse(file("pinboard_inf.xml")).value
       res.title shouldBe board.title
       res.description shouldBe board.description
       res.entries.size shouldBe board.entries.size
@@ -174,7 +174,7 @@ class NoticeboardParserSpec
           )
         )
       )
-      val res = parser.parse(file("pinboard_ing.xml"))
+      val res = parser.parse(file("pinboard_ing.xml")).value
       res.title shouldBe board.title
       res.description shouldBe board.description
       res.entries.size shouldBe board.entries.size
@@ -289,7 +289,7 @@ class NoticeboardParserSpec
           )
         )
       )
-      val res = parser.parse(file("pinboard_maschinenbau.xml"))
+      val res = parser.parse(file("pinboard_maschinenbau.xml")).value
       res.title shouldBe board.title
       res.description shouldBe board.description
       res.entries.size shouldBe board.entries.size
@@ -428,7 +428,7 @@ class NoticeboardParserSpec
           )
         )
       )
-      val res = parser.parse(file("pinboard_etechnik.xml"))
+      val res = parser.parse(file("pinboard_etechnik.xml")).value
       res.title shouldBe board.title
       res.description shouldBe board.description
       res.entries.size shouldBe board.entries.size
@@ -437,6 +437,22 @@ class NoticeboardParserSpec
         lhs.description shouldBe rhs.description
         lhs.detailUrl shouldBe rhs.detailUrl
         lhs.published shouldBe rhs.published
+      }
+    }
+
+    "fail parsing the noticeboard if the html is invalid" in {
+      val html =
+        <html>
+        <body>
+          <h1>Foo</h1>
+        </body>
+      </html>
+
+      parser.parse(html) match {
+        case Right(board) =>
+          fail(s"expected error, but was $board")
+        case Left(value) =>
+          value shouldBe "expected title"
       }
     }
   }

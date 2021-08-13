@@ -17,24 +17,34 @@ class NoticeboardParser @Inject() (val config: NoticeboardConfig) {
     .forPattern("EEE, dd MMM yyyy HH:mm:ss Z")
     .withLocale(Locale.US)
 
-  def parse(doc: Browser#DocumentType): Noticeboard =
-    Noticeboard(
-      removeCDATA(doc >> text("channel title")).trim,
-      removeCDATA(doc >> text("channel description")).trim,
+  def parse(doc: Browser#DocumentType): Either[String, Noticeboard] =
+    for {
+      title <- (doc >?> text("channel title")).toRight("expected title")
+      desc <- (doc >?> text("channel description")).toRight(
+        "expected description"
+      )
+    } yield Noticeboard(
+      removeCDATA(title).trim,
+      removeCDATA(desc).trim,
       (doc >> elements("channel item"))
         .flatMap(parseEntry)
         .toList
     )
 
   def parseEntry(elem: Element): Option[NoticeboardEntry] =
-    Try(formatter.parseLocalDateTime(elem >> text("pubDate"))).map { date =>
-      NoticeboardEntry(
-        removeCDATA(elem >> text("title")).trim,
-        removeCDATA(elem >> text("description")).trim,
-        elem >> text("guid"),
-        date
-      )
-    }.toOption
+    for {
+      date <- Try(
+        formatter.parseLocalDateTime(elem >> text("pubDate"))
+      ).toOption
+      title <- elem >?> text("title")
+      desc <- elem >?> text("description")
+      detailUrl <- elem >?> text("guid")
+    } yield NoticeboardEntry(
+      removeCDATA(title).trim,
+      removeCDATA(desc).trim,
+      detailUrl,
+      date
+    )
 
   private def removeCDATA(str: String): String =
     str.stripPrefix("<![CDATA[").stripSuffix("]]>")

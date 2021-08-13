@@ -1,6 +1,6 @@
 import net.ruippeixotog.scalascraper.browser.Browser
 import play.api.inject.bind
-import staff.{StaffLocation, StaffService, StaffDataProvider}
+import staff.{StaffDataProvider, StaffLocation, StaffService}
 
 import scala.concurrent.Future
 import scala.util.Try
@@ -80,7 +80,7 @@ final class StaffServiceSpec
         .fetchMaxResults(StaffLocation.Gummersbach)
         .map(n => fail(s"expected no maxResults, but was $n"))
         .recover { case NonFatal(e) =>
-          e.getMessage shouldBe "can't find max results"
+          e.getMessage shouldBe "expected data-maxresults"
         }
     }
 

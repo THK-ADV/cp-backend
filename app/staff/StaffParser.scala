@@ -10,13 +10,14 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 final class StaffParser @Inject() (val config: StaffConfig) {
 
-  def parseMaxResults(doc: Browser#DocumentType): Option[Int] =
+  def parseMaxResults(doc: Browser#DocumentType): Either[String, Int] =
     (doc >?> attr("data-maxresults")("a[id=filter_list_more]"))
       .flatMap(_.toIntOption)
+      .toRight("expected data-maxresults")
 
   def parseEntries(doc: Browser#DocumentType): List[Staff] = {
-    val personalInfos = doc >> elementList("body > a")
-    val contactInfos = (doc >> elementList("body > span"))
+    val personalInfos = doc >> elementList("body a")
+    val contactInfos = (doc >> elementList("body span"))
       .map { e =>
         val tel = e >?> text(".tel")
         val mail = e >?> text(".email")

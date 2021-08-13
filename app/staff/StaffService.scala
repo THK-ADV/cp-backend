@@ -11,18 +11,17 @@ final class StaffService @Inject() (
     private implicit val ctx: ExecutionContext
 ) {
 
+  import ops.Ops.toFuture
+
   def fromCache(location: StaffLocation): Future[List[Staff]] = ???
 
   def writeCache(staff: List[Staff]): Unit = ???
 
   def fetchMaxResults(location: StaffLocation): Future[Int] =
-    htmlProvider.maxResults(location).flatMap { xml =>
-      parser
-        .parseMaxResults(xml)
-        .fold(Future.failed[Int](new Throwable("can't find max results")))(
-          Future.successful
-        )
-    }
+    for {
+      xml <- htmlProvider.maxResults(location)
+      maxResults <- toFuture(parser.parseMaxResults(xml))
+    } yield maxResults
 
   def fetchStaff(location: StaffLocation): Future[List[Staff]] =
     for {
