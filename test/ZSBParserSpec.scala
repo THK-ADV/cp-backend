@@ -16,7 +16,7 @@ class ZSBParserSpec
           "Wie komme ich an meine Studienbescheinigung? Welche weiteren Informations- und Beratungsangebote gibt es an TH Köln? Was ist eine MultiCa oder wie lese ich ein Modulhandbuch? Bei diesen Fragestellungen und weiteren Anliegen steht Ihnen die Zentrale Studienberatung als Ansprechpartner zur Verfügung.",
           "https://www.th-koeln.de/studium/starthilfe-fuer-erstsemester_77588.php",
           Some(
-            "/mam/bilder/studium/beratung/fittosize__358_201_adb0fc356b1d15c3680f0e1b223e350d_tutoren_innen_begleiten_deinen_studienstart.jpg"
+            "https://www.th-koeln.de/mam/bilder/studium/beratung/fittosize__358_201_adb0fc356b1d15c3680f0e1b223e350d_tutoren_innen_begleiten_deinen_studienstart.jpg"
           )
         ),
         ZSBEntry(
@@ -24,7 +24,7 @@ class ZSBParserSpec
           "Workshop für Studierende zur Studienorganisation. Du hast das Gefühl, dass Dein Studium effektiver laufen könnte? Du möchtest Dein Zeitmanagement, Deine Arbeits- und Lerntechniken und den Umgang mit Hindernissen besser bewältigen können? Dieser Workshop unterstützt Dich genau dabei.",
           "https://www.th-koeln.de/studium/erfolgreich-studieren---aber-wie_67840.php",
           Some(
-            "/mam/bilder/studium/beratung/fittosize__358_201_6af38686497a5fecf98572a04b87570f_workshop__erfolgreich_studieren_-_aber_wie__.jpg"
+            "https://www.th-koeln.de/mam/bilder/studium/beratung/fittosize__358_201_6af38686497a5fecf98572a04b87570f_workshop__erfolgreich_studieren_-_aber_wie__.jpg"
           )
         ),
         ZSBEntry(
@@ -32,7 +32,7 @@ class ZSBParserSpec
           "Mit der aktuellen Studiensituation unzufrieden?",
           "https://www.th-koeln.de/studium/360-beratung_55185.php",
           Some(
-            "/mam/bilder/studium/beratung/fittosize__358_201_e744058ff8eb960dc0290a581a0701c8_360deg_beratung_-_neue_wege_gehen.jpg"
+            "https://www.th-koeln.de/mam/bilder/studium/beratung/fittosize__358_201_e744058ff8eb960dc0290a581a0701c8_360deg_beratung_-_neue_wege_gehen.jpg"
           )
         ),
         ZSBEntry(
@@ -40,7 +40,7 @@ class ZSBParserSpec
           "Sie haben Fragen zum Thema Stipendium oder möchten mehr erfahren zur Stipendienförderungen an deutschen Hochschulen? Dann wenden Sie sich gerne jederzeit an die Zentrale Studienberatung! Oder vereinbaren Sie direkt per E-Mail einen Beratungstermin: stipendienberatung@th-koeln.de",
           "https://www.th-koeln.de/studium/stipendienberatung_63405.php",
           Some(
-            "/mam/bilder/studium/bewerbung_zulassung/finanz/fittosize__358_201_3474a5e3114f508ef488f61da93a171a_stipendienberatung_istock-903911970.jpg"
+            "https://www.th-koeln.de/mam/bilder/studium/bewerbung_zulassung/finanz/fittosize__358_201_3474a5e3114f508ef488f61da93a171a_stipendienberatung_istock-903911970.jpg"
           )
         ),
         ZSBEntry(
@@ -48,7 +48,7 @@ class ZSBParserSpec
           "Nehmen Sie sich Zeit für sich und Ihre Gedanken.",
           "https://www.th-koeln.de/studium/reflexionszeiten---nimm-dir-einen-moment-fuer-dich-und-deine-gedanken_64411.php",
           Some(
-            "/mam/bilder/studium/beratung/fittosize__358_201_12b4e17a497c2cbe89e6e81f111dc768_reflexionszeiten.jpg"
+            "https://www.th-koeln.de/mam/bilder/studium/beratung/fittosize__358_201_12b4e17a497c2cbe89e6e81f111dc768_reflexionszeiten.jpg"
           )
         ),
         ZSBEntry(
@@ -62,7 +62,7 @@ class ZSBParserSpec
           "Ob Hausarbeit, Abschlussarbeit oder Promotion - die Schreibberatung der TH Köln bietet Unterstützung in allen Fragen rund um das wissenschaftliche Schreiben. Das Angebot umfasst individuelle Einzelberatungen, ein Schreibcoaching in der Gruppe sowie Workshops und Online-Seminare zur Verbesserung Ihrer Schreibkompetenz. Entscheiden Sie selbst, was für Sie persönlich das Richtige ist!",
           "https://www.th-koeln.de/studium/schreibberatung_43697.php",
           Some(
-            "/mam/bilder/studium/fittosize__358_201_bde6c78b5582a7bd12f38e59792b89b9_superschreibtag_08__2_.jpg"
+            "https://www.th-koeln.de/mam/bilder/studium/fittosize__358_201_bde6c78b5582a7bd12f38e59792b89b9_superschreibtag_08__2_.jpg"
           )
         ),
         ZSBEntry(
@@ -76,7 +76,7 @@ class ZSBParserSpec
           "Es gibt immer Perspektiven - Weiter geht´s",
           "https://www.th-koeln.de/studium/zweifel-am-studium_46515.php",
           Some(
-            "/mam/bilder/studium/beratung/fittosize__358_201_4ce5ebb3e93d205b95da16830718bee0_istock-frau_zweifelt.jpg"
+            "https://www.th-koeln.de/mam/bilder/studium/beratung/fittosize__358_201_4ce5ebb3e93d205b95da16830718bee0_istock-frau_zweifelt.jpg"
           )
         ),
         ZSBEntry(
@@ -84,7 +84,7 @@ class ZSBParserSpec
           "Studieren mit Familie ist eine besondere Herausforderung. Die TH Köln unterstützt Sie beim Studium mit Kind oder pflegebedürftigen Angehörigen.",
           "https://www.th-koeln.de/studium/studieren-mit-kind_168.php",
           Some(
-            "/mam/bilder/hochschule/profil/familienservice/2016_studieren-mit-kind.jpg"
+            "https://www.th-koeln.de/mam/bilder/hochschule/profil/familienservice/2016_studieren-mit-kind.jpg"
           )
         ),
         ZSBEntry(
@@ -92,7 +92,7 @@ class ZSBParserSpec
           "Wer gerne erklärt, begeistern kann, gerne kommuniziert, wer Technik studiert und wen das Lehramt interessiert, der kann sich jetzt jederzeit während des Studiums für eine neue kooperative Lehramtsausbildung entscheiden, um sich so den Weg in ein alternatives Berufsfeld zu ermöglichen.",
           "https://www.th-koeln.de/studium/ingenieurin-sein--lehrerin-werden_60576.php",
           Some(
-            "/mam/bilder/studium/beratung/lehramt/fittosize__358_201_9094a3879eb7bd8a1e1a4da0c41d6a12_lehrerpult.jpg"
+            "https://www.th-koeln.de/mam/bilder/studium/beratung/lehramt/fittosize__358_201_9094a3879eb7bd8a1e1a4da0c41d6a12_lehrerpult.jpg"
           )
         )
       )
@@ -107,6 +107,21 @@ class ZSBParserSpec
         lhs.imgUrl shouldBe rhs.imgUrl
       }
     }
-  }
 
+    "fail parsing the zsb feed if the html is invalid" in {
+      val html =
+        <html>
+        <body>
+          <h1>Foo</h1>
+        </body>
+      </html>
+
+      parser.parse(html) match {
+        case Right(feed) =>
+          fail(s"expected error, but was $feed")
+        case Left(value) =>
+          value shouldBe "expected div with #content"
+      }
+    }
+  }
 }

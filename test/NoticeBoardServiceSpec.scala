@@ -36,6 +36,7 @@ class NoticeBoardServiceSpec
   override protected def bindings = Seq(
     bind(classOf[NoticeBoardDataProvider]).toInstance(new FakeRSSProvider())
   )
+
   val service = app.injector.instanceOf[NoticeBoardService]
 
   "A NoticeBoardService" should {

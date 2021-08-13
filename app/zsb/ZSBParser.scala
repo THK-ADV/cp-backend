@@ -10,20 +10,28 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class ZSBParser @Inject() (val config: ZSBConfig) {
 
-  def parse(doc: Browser#DocumentType): Option[ZSBFeed] =
+  def parse(doc: Browser#DocumentType): Either[String, ZSBFeed] =
     for {
-      content <- doc >?> element("div #content")
-      (title, desc) <- parseArticle(content)
+      content <- (doc >?> element("div #content")).toRight(
+        "expected div with #content"
+      )
+      article <- parseArticle(content)
     } yield {
       val entries = content >> elements("div .content-modules div")
-      ZSBFeed(title, desc, entries.flatMap(parseEntry).toList)
+      ZSBFeed(article._1, article._2, entries.flatMap(parseEntry).toList)
     }
 
-  private def parseArticle(elem: Element): Option[(String, String)] =
+  private def parseArticle(elem: Element): Either[String, (String, String)] =
     for {
-      article <- elem >?> element("div div article")
-      title <- article >?> text("h1")
-      description <- article >?> text("div p")
+      article <- (elem >?> element("div div article")).toRight(
+        "expected article"
+      )
+      title <- (article >?> text("h1")).toRight(
+        "expected h1 with title inside article"
+      )
+      description <- (article >?> text("div p")).toRight(
+        "expected p with desc inside article"
+      )
     } yield (title, description)
 
   private def parseEntry(elem: Element): Option[ZSBEntry] =

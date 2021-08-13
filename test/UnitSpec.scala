@@ -7,3 +7,4 @@ trait UnitSpec
     with should.Matchers
     with OptionValues
     with TryValues
+    with EitherValues
