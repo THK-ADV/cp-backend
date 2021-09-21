@@ -1,6 +1,7 @@
 import mensa.AdditiveType.{Full, ID}
 import mensa.legend.Additive
-import mensa.{AdditiveType, MensaService}
+import mensa.{AdditiveType, MensaService, Menu}
+import org.joda.time.LocalDate
 
 class MensaServiceSpec extends UnitSpec with ApplicationSpec {
 
@@ -51,6 +52,40 @@ class MensaServiceSpec extends UnitSpec with ApplicationSpec {
       val legend = Seq.empty
       val res = service.liftWithLegend(simple, legend)
       res shouldBe simple
+    }
+
+    "filter menus which are in a given week" in {
+      def createMenu(date: String) =
+        Menu(LocalDate.parse(date), "", Seq.empty)
+
+      val menus = Seq(
+        createMenu("2021-09-03"),
+        createMenu("2021-09-04"),
+        createMenu("2021-09-05"),
+        createMenu("2021-09-06"),
+        createMenu("2021-09-07"),
+        createMenu("2021-09-08"),
+        createMenu("2021-09-09"),
+        createMenu("2021-09-10"),
+        createMenu("2021-09-11"),
+        createMenu("2021-09-12"),
+        createMenu("2021-09-13"),
+      )
+      val res = MensaService.slice(
+        menus,
+        LocalDate.parse("2021-09-06"),
+        LocalDate.parse("2021-09-11")
+      )
+      val week = List(
+        LocalDate.parse("2021-09-06"),
+        LocalDate.parse("2021-09-07"),
+        LocalDate.parse("2021-09-08"),
+        LocalDate.parse("2021-09-09"),
+        LocalDate.parse("2021-09-10"),
+        LocalDate.parse("2021-09-11"),
+      )
+      res.size shouldBe 6
+      res.forall(m => week.contains(m.date)) shouldBe true
     }
   }
 }

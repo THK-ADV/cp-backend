@@ -1,7 +1,7 @@
 package mensa
 
 import mensa.AdditiveType.ID
-import org.joda.time.LocalDate
+import org.joda.time.{DateTime, LocalDate}
 import parser.PrimitivesParser._
 
 import java.util.Locale
@@ -26,10 +26,9 @@ class MensaParser @Inject() (
       Menu(timestamp0, weekday, items)
     }
 
-  def parseTimestamp(node: Node): Option[LocalDate] = {
+  def parseTimestamp(node: Node): Option[LocalDate] =
     (node \@ "timestamp").toLongOption
-      .map(l => new LocalDate(l * 1000))
-  }
+      .map(l => new DateTime(l * 1000).toLocalDate)
 
   def parseItem(item: Node): Item = {
     val category = parseString(item \ "category")
