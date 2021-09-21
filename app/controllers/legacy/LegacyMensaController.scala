@@ -38,7 +38,7 @@ object LegacyMensaController {
         "sup" -> parseIds(item.description.additives)
           .appendedAll(parseIds(item.description.allergens))
       ),
-      "img" -> JsNull,
+      "img" -> item.fullUrl,
       "name" -> item.category,
       "price" -> item.prices.map(a =>
         a.value.map(Json.toJson[Double]).getOrElse(JsNull)
