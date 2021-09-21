@@ -29,17 +29,25 @@ class MensaController @Inject() (
   }
 
   def mensa(id: String) = Action.async { implicit r =>
-    val res = for {
-      mensa <- Future.fromTry(parseParam(id))
-      menu <-
-        if (parseBoolQueryParam("withLegend"))
-          service.fetchMensaWithLegend(mensa)
-        else
-          service.fetchMensa(mensa)
-    } yield menu
-
+    val res =
+      if (parseBoolQueryParam("withLegend"))
+        fetchWithLegend(id)
+      else
+        fetchMenu(id)
     okSeq(res)
   }
+
+  def fetchMenu(id: String): Future[Seq[Menu]] =
+    for {
+      mensa <- Future.fromTry(parseParam(id))
+      menu <- service.fetchMensa(mensa)
+    } yield menu
+
+  def fetchWithLegend(id: String): Future[Seq[Menu]] =
+    for {
+      mensa <- Future.fromTry(parseParam(id))
+      menu <- service.fetchMensaWithLegend(mensa)
+    } yield menu
 
   def allAvailable() = Action { _ =>
     Ok(Json.toJson(MensaLocation.all()))
