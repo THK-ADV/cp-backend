@@ -1,7 +1,7 @@
 package mensa
 
 import mensa.AdditiveType.ID
-import org.joda.time.{DateTime, LocalDate}
+import org.joda.time.{DateTime, DateTimeZone, LocalDate}
 import parser.PrimitivesParser._
 
 import java.util.Locale
@@ -13,7 +13,9 @@ class MensaParser @Inject() (
     private val config: MensaConfig
 ) {
 
-  private val locale: Locale = Locale.GERMANY
+  private val locale = Locale.GERMANY
+
+  private val timeZone = DateTimeZone.forID("Europe/Berlin")
 
   def parseMenu(elem: Elem): Seq[Menu] =
     for {
@@ -28,7 +30,7 @@ class MensaParser @Inject() (
 
   def parseTimestamp(node: Node): Option[LocalDate] =
     (node \@ "timestamp").toLongOption
-      .map(l => new DateTime(l * 1000).toLocalDate)
+      .map(l => new DateTime(l * 1000, timeZone).toLocalDate)
 
   def parseItem(item: Node): Item = {
     val category = parseString(item \ "category")
