@@ -33,7 +33,7 @@ object LegacyMensaController {
     Json.obj(
       "name" -> item.category,
       "meal" -> Json.obj(
-        "meal" -> item.meal.name,
+        "name" -> item.meal.name,
         "sup" -> parseIds(item.meal.additives)
           .appendedAll(parseIds(item.meal.allergens))
       ),
