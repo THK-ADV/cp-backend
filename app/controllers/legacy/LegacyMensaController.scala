@@ -1,17 +1,13 @@
 package controllers.legacy
 
-import controllers.legacy.LegacyMensaController.{
-  parseLegacyMenus,
-  parseMenus,
-  rewriteMensaLocation
-}
+import controllers.legacy.LegacyMensaController.parseLegacyMenus
 import controllers.{JsonHttpResponse, MensaController}
 import mensa.{AdditiveType, Item, Menu}
 import play.api.libs.json._
 import play.api.mvc.{AbstractController, ControllerComponents}
 
 import javax.inject.{Inject, Singleton}
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 object LegacyMensaController {
 
@@ -62,14 +58,6 @@ object LegacyMensaController {
 
   def parseLegacyMenus(menus: Seq[Menu]) =
     parseMenus(sliceCurrentWeek(menus))
-
-  def rewriteMensaLocation(id: String): Option[String] =
-    id.toLowerCase match {
-      case "iwz" => Some("dz")
-      case "gwz" => Some("st")
-      case "gm"  => Some("gm")
-      case _     => None
-    }
 }
 
 @Singleton
@@ -81,13 +69,8 @@ class LegacyMensaController @Inject() (
     with JsonHttpResponse {
 
   def mensa(id: String) = Action.async { implicit r =>
-    rewriteMensaLocation(id) match {
-      case Some(id) =>
-        mensaController
-          .fetchMenu(id)
-          .map(menus => Ok(parseLegacyMenus(menus)))
-      case None =>
-        Future.successful(Ok(parseMenus(Seq.empty)))
-    }
+    mensaController
+      .fetchMenu(id)
+      .map(menus => Ok(parseLegacyMenus(menus)))
   }
 }
