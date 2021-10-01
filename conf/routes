@@ -15,8 +15,6 @@ GET        /mensa                       controllers.MensaController.allAvailable
 GET        /mensa/:id                   controllers.MensaController.mensa(id)
 GET        /legend                      controllers.MensaController.legend()
 
-GET        /legacy/mensa/:id            controllers.legacy.LegacyMensaController.mensa(id)
-
 GET        /staff                       controllers.StaffController.allAvailable()
 GET        /staff/:id                   controllers.StaffController.staffs(id)
 
@@ -27,6 +25,9 @@ GET        /newsfeed                    controllers.NewsfeedController.allAvaila
 GET        /newsfeed/:id                controllers.NewsfeedController.newsfeed(id)
 
 GET        /zsb                         controllers.ZSBController.zsbFeed()
+
+GET        /legacy/mensa/:id            controllers.legacy.LegacyMensaController.mensa(id)
+GET        /legacy/newsfeed/:id         controllers.legacy.LegacyNewsfeedController.newsfeed(id)
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file                controllers.Assets.versioned(path="/public", file: Asset)
