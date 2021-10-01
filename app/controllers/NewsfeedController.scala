@@ -27,12 +27,14 @@ class NewsfeedController @Inject() (
   import NewsfeedController._
 
   def newsfeed(id: String) = Action.async { _ =>
-    val res = for {
-      feed <- Future.fromTry(parseNewsfeed(id))
-      noticeBoard <- service.fetchNewsfeed(feed)
-    } yield noticeBoard
-    okSeq(res)
+    okSeq(fetchNewsfeed(id))
   }
+
+  def fetchNewsfeed(id: String) =
+    for {
+      feed <- Future.fromTry(parseNewsfeed(id))
+      newsfeed <- service.fetchNewsfeed(feed)
+    } yield newsfeed
 
   def allAvailable() = Action { _ =>
     Ok(Json.toJson(Newsfeed.all()))
