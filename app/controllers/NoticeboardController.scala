@@ -34,12 +34,14 @@ class NoticeboardController @Inject() (
   import NoticeboardController._
 
   def noticeboard(id: String) = Action.async { _ =>
-    val res = for {
+    ok(fetchNoticeboard(id))
+  }
+
+  def fetchNoticeboard(id: String) =
+    for {
       feed <- Future.fromTry(parseNoticenoardFeed(id))
       noticeBoard <- service.fetchNoticeboard(feed)
     } yield noticeBoard
-    ok(res)
-  }
 
   def allAvailable() = Action { _ =>
     Ok(Json.toJson(NoticeboardFeed.all()))

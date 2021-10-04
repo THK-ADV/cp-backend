@@ -3,31 +3,32 @@
 # ~~~~
 
 # Home page
-GET        /                            controllers.IndexController.index()
+GET        /                              controllers.IndexController.index()
 
-GET        /settings                    controllers.SettingsController.settings()
-GET        /settings/mensa              controllers.SettingsController.mensa()
-GET        /settings/newsfeed           controllers.SettingsController.newsfeed()
-GET        /settings/noticeboard        controllers.SettingsController.noticeboard()
-GET        /settings/statt              controllers.SettingsController.staff()
+GET        /settings                      controllers.SettingsController.settings()
+GET        /settings/mensa                controllers.SettingsController.mensa()
+GET        /settings/newsfeed             controllers.SettingsController.newsfeed()
+GET        /settings/noticeboard          controllers.SettingsController.noticeboard()
+GET        /settings/statt                controllers.SettingsController.staff()
 
-GET        /mensa                       controllers.MensaController.allAvailable()
-GET        /mensa/:id                   controllers.MensaController.mensa(id)
-GET        /legend                      controllers.MensaController.legend()
+GET        /mensa                         controllers.MensaController.allAvailable()
+GET        /mensa/:id                     controllers.MensaController.mensa(id)
+GET        /legend                        controllers.MensaController.legend()
 
-GET        /staff                       controllers.StaffController.allAvailable()
-GET        /staff/:id                   controllers.StaffController.staffs(id)
+GET        /staff                         controllers.StaffController.allAvailable()
+GET        /staff/:id                     controllers.StaffController.staffs(id)
 
-GET        /noticeboard                 controllers.NoticeboardController.allAvailable()
-GET        /noticeboard/:id             controllers.NoticeboardController.noticeboard(id)
+GET        /noticeboard                   controllers.NoticeboardController.allAvailable()
+GET        /noticeboard/:id               controllers.NoticeboardController.noticeboard(id)
 
-GET        /newsfeed                    controllers.NewsfeedController.allAvailable()
-GET        /newsfeed/:id                controllers.NewsfeedController.newsfeed(id)
+GET        /newsfeed                      controllers.NewsfeedController.allAvailable()
+GET        /newsfeed/:id                  controllers.NewsfeedController.newsfeed(id)
 
-GET        /zsb                         controllers.ZSBController.zsbFeed()
+GET        /zsb                           controllers.ZSBController.zsbFeed()
 
-GET        /legacy/mensa/:id            controllers.legacy.LegacyMensaController.mensa(id)
-GET        /legacy/newsfeed/:id         controllers.legacy.LegacyNewsfeedController.newsfeed(id)
+GET        /legacy/mensa/:id              controllers.legacy.LegacyMensaController.mensa(id)
+GET        /legacy/newsfeed/:id           controllers.legacy.LegacyNewsfeedController.newsfeed(id)
+GET        /legacy/noticeboard/:id        controllers.legacy.LegacyNoticeboardController.noticeboard(id)
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file                controllers.Assets.versioned(path="/public", file: Asset)
+GET        /assets/*file                  controllers.Assets.versioned(path="/public", file: Asset)
