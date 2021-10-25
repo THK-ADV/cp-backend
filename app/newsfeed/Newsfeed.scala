@@ -37,10 +37,10 @@ object Newsfeed {
     override val label = "Anlagen, Energie- und Maschinensysteme"
   }
   case object F10 extends Newsfeed {
-    override val label = "Angewandte Naturwissenschaften"
+    override val label = "Informatik und Ingenieurwissenschaften"
   }
   case object F11 extends Newsfeed {
-    override val label = "Informatik und Ingenieurwissenschaften"
+    override val label = "Angewandte Naturwissenschaften"
   }
   case object F12 extends Newsfeed {
     override val label = "Raumentwicklung und Infrastruktursysteme"
