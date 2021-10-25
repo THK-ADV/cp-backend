@@ -9,7 +9,7 @@ GET        /settings                      controllers.SettingsController.setting
 GET        /settings/mensa                controllers.SettingsController.mensa()
 GET        /settings/newsfeed             controllers.SettingsController.newsfeed()
 GET        /settings/noticeboard          controllers.SettingsController.noticeboard()
-GET        /settings/statt                controllers.SettingsController.staff()
+GET        /settings/staff                controllers.SettingsController.staff()
 
 GET        /mensa                         controllers.MensaController.allAvailable()
 GET        /mensa/:id                     controllers.MensaController.mensa(id)
