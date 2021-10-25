@@ -1,3 +1,6 @@
+# Ressourcen
+[settings](TODO)
+
 # settings
 _Informationen die bei der initiallen Abfrage der App-Einstellungen benötigt werden._
 
@@ -7,7 +10,7 @@ _Abfrage der Optionen für die Einstellungen_
 
 Verfügbare Requesttypes: **GET**
 
-###Response
+### Response
 
 Typ: **JSON**
 
@@ -25,7 +28,7 @@ _Abfrage aller Mensa Standorte als Liste vom Typ `MensaLocation`_
 
 Verfügbare Requesttypes: **GET**
 
-###Response
+### Response
 
 Typ: **JSON**
 
@@ -43,7 +46,7 @@ _Abfrage aller Newsfeeds als Liste vom Typ `Newsfeed`_
 
 Verfügbare Requesttypes: **GET**
 
-###Response
+### Response
 
 Typ: **JSON**
 
@@ -60,7 +63,7 @@ _Abfrage aller schwarzen Bretter als Liste vom Typ `NoticeBoardFeed`_
 
 Verfügbare Requesttypes: **GET**
 
-###Response
+### Response
 
 Typ: **JSON**
 
@@ -77,7 +80,7 @@ _Abfrage aller Personal Standorte als Liste vom Typ `StaffLocation`_
 
 Verfügbare Requesttypes: **GET**
 
-###Response
+### Response
 
 Typ: **JSON**
 
