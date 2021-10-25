@@ -6,10 +6,6 @@
 GET        /                              controllers.IndexController.index()
 
 GET        /settings                      controllers.SettingsController.settings()
-GET        /settings/mensa                controllers.SettingsController.mensa()
-GET        /settings/newsfeed             controllers.SettingsController.newsfeed()
-GET        /settings/noticeboard          controllers.SettingsController.noticeboard()
-GET        /settings/staff                controllers.SettingsController.staff()
 
 GET        /mensa                         controllers.MensaController.allAvailable()
 GET        /mensa/:id                     controllers.MensaController.mensa(id)

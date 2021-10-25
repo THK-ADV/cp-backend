@@ -31,20 +31,4 @@ class SettingsController @Inject() (
       )
     )
   }
-
-  def mensa() = Action { _ =>
-    Ok(Json.toJson(MensaLocation.all()))
-  }
-
-  def newsfeed() = Action { _ =>
-    Ok(Json.toJson(Newsfeed.all()))
-  }
-
-  def noticeboard() = Action { _ =>
-    Ok(Json.toJson(NoticeboardFeed.all()))
-  }
-
-  def staff() = Action { _ =>
-    Ok(Json.toJson(StaffLocation.all()))
-  }
 }
