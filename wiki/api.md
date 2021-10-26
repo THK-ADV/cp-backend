@@ -1,13 +1,7 @@
 # Ressourcen
-- [settings](#settings) 
-  - [/settings/mensa](#settingsmensa)
-  - [/settings/newsfeed](#settingsnewsfeed)
-  - [/settings/noticeboard](#settingsnoticeboard)
-  - [/settings/staff](#settingsstaff)
+- [settings](#settings)
 - [mensa](#mensa)
-    - [/mensa](#mensa)
-    - [/settings/mensa:id](#mensaid)
-    - [/legend](#legend)
+
 
 
 
@@ -157,22 +151,13 @@ Typ: **JSON**
 |---------|--------|---------------------------------------------|
 | `category` | String | Kategorie des Gerichts |
 | `meal`    | Main | Wichtigsten Informationen eines Gerichts        |
-| `description`    | Description | zusätzliche Informationen zu einem Gericht |
+| `description`    | Description | Zusätzliche Informationen zu einem Gericht |
 | `foodIcons`    | String[] | Icons zu dem jeweiligen Gericht        |
 | `prices`    | Price[] | Preise Gerichts für die verschiedenen Rollen        |
 | `thumbnailUrl`    | String | Bild URL des Thumbnails in reduzierter Auflösung       |
 | `fullUrl`    | String | Bild URL des Thumbnails in voller Auflösung       |
 
-`Meal`
-
-| Feld    | Typ    | Beschreibung                                |
-|---------|--------|---------------------------------------------|
-| `name` | String | Name des Gerichts |
-| `nameAdditives`    | String | Zusatzstoffe im Gericht als Zeichenkette      |
-| `additives`    | AdditiveType[] | Liste der Zusatzstoffe |
-| `allergens`    | AdditiveType[] | Liste der Allergene        |
-
-`Description`
+`Meal` und `Description`
 
 | Feld    | Typ    | Beschreibung                                |
 |---------|--------|---------------------------------------------|
