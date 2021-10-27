@@ -154,8 +154,10 @@ Typ: **JSON**
 | `description`    | Description | Zusätzliche Informationen zu einem Gericht |
 | `foodIcons`    | String[] | Icons zu dem jeweiligen Gericht        |
 | `prices`    | Price[] | Preise Gerichts für die verschiedenen Rollen        |
-| `thumbnailUrl`    | String | Bild URL des Thumbnails in reduzierter Auflösung       |
-| `fullUrl`    | String | Bild URL des Thumbnails in voller Auflösung       |
+| `thumbnailUrl`    | String &#124; Null | Bild URL des Thumbnails in reduzierter Auflösung       |
+| `fullUrl`    | String &#124; Null | Bild URL des Thumbnails in voller Auflösung       |
+
+Sollte keine Bild URL zur Verfügung stehen, wird nach werden `thumbnailUrl` und `fullUrl` wird `null`  zurückgegeben.
 
 `Meal` und `Description`
 
@@ -170,11 +172,12 @@ Typ: **JSON**
 
 | Feld    | Typ    | Beschreibung                                |
 |---------|--------|---------------------------------------------|
-| `value` | Double | Betrag des Preises |
+| `value` | Double &#124; Null| null | Betrag des Preises |
 | `role`    | String | Rolle für welche der Preis gilt      |
 
-## ``/legend``
+Sollte es keinen Preis für eine Rolle geben, wird `value` auf `null` gesetzt.
 
+## ``/legend``
 _Abfrage der Legende der Allergene und Zusatzstoffe für die Mensa. 
 Die Legende setzt sich aus einer Liste `Additive` für die einzelnen Allergene und Zusatzstoffe zusammen._
 
