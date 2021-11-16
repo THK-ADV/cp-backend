@@ -235,3 +235,53 @@ Typ: **JSON**
 | `detailUrl`    | String | URL der zur Detailseite der TH Köln für den entsprechenden Mitarbeiter        |
 | `tel`    | String &#124; Null  | Telefonnummer des Mitarbeiters. Gibt `null` zurück wenn keine Telefonnummer hinterlegt ist |
 | `email`    | String &#124; Null  | Email des Mitarbeiters. Gibt `null` zurück wenn keine Email hinterlegt ist |
+
+
+## ``/noticeboard``
+_Abfrage der verfügbaren schwarzen Bretter. Rückgabe erfolgt als Array von `NoticeboardFeed`._
+
+Verfügbare Requesttypes: **GET**
+
+### Response
+
+Typ: **JSON**
+
+`NoticeboardFeed`
+
+| Feld    | Typ    | Beschreibung                                |
+|---------|--------|---------------------------------------------|
+| `label` | String | Name des schwarzen Bretts |
+| `id`    | String | Kürzel des schwarzen Bretts |
+
+## ``/staff:id``
+
+_Abfrage des Feeds eines schwarzen Bretts anhand der übergebenen ID._
+
+Verfügbare Requesttypes: **GET**
+
+### Parameter
+
+| Feld    | Typ    | Beschreibung                                | Art   | Optional |
+|---------|--------|---------------------------------------------|-------|----------|
+| `id` | String | Kürzel des schwarzen Bretts (z.b. inf) | Path  | Nein |
+
+### Response
+
+Typ: **JSON**
+
+| Feld    | Typ    | Beschreibung                                |
+|---------|--------|---------------------------------------------|
+| `title` | String | Name des schwarzen Bretts |
+| `description`    | String | Beschreibung des schwarzen Bretts |
+| `entries`    | NoticeboardEntry[]  | Telefonnummer des Mitarbeiters. Gibt `null` zurück wenn keine Telefonnummer hinterlegt ist |
+
+#### Zugehörige Objekte
+
+`NoticeboardEntry`
+
+| Feld    | Typ    | Beschreibung                                |
+|---------|--------|---------------------------------------------|
+| `title` | String | Titel des Eintrags |
+| `description`    | String | Beschreibung des Eintrags        |
+| `detailUrl`    | String | URL zur Detailseite |
+| `published`    | Date | Datum der Veröffentlichung        |
