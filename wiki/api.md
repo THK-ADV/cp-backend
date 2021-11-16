@@ -253,7 +253,7 @@ Typ: **JSON**
 | `label` | String | Name des schwarzen Bretts |
 | `id`    | String | Kürzel des schwarzen Bretts |
 
-## ``/staff:id``
+## ``/noticeboard:id``
 
 _Abfrage des Feeds eines schwarzen Bretts anhand der übergebenen ID._
 
@@ -285,3 +285,42 @@ Typ: **JSON**
 | `description`    | String | Beschreibung des Eintrags        |
 | `detailUrl`    | String | URL zur Detailseite |
 | `published`    | Date | Datum der Veröffentlichung        |
+
+## ``/newsfeed``
+_Abfrage der verfügbaren Newsfeeds. Rückgabe erfolgt als Array von `NoticeboardFeed`._
+
+Verfügbare Requesttypes: **GET**
+
+### Response
+
+Typ: **JSON**
+
+`Newsfeed`
+
+| Feld    | Typ    | Beschreibung                                |
+|---------|--------|---------------------------------------------|
+| `label` | String | Name des Newsfeeds |
+| `id`    | String | Kürzel des Newsfeeds |
+
+## ``/newsfeed:id``
+
+_Abfrage eines Newsfeeds anhand der übergebenen ID._
+
+Verfügbare Requesttypes: **GET**
+
+### Parameter
+
+| Feld    | Typ    | Beschreibung                                | Art   | Optional |
+|---------|--------|---------------------------------------------|-------|----------|
+| `id` | String | Kürzel des Newsfeeds (z.b. f10) | Path  | Nein |
+
+### Response
+
+Typ: **JSON**
+
+| Feld    | Typ    | Beschreibung                                |
+|---------|--------|---------------------------------------------|
+| `title` | String | Titel des Newsfeeds |
+| `body`    | String | Beschreibung des Newsfeeds |
+| `detailUrl`    | String  | URL zur Detailseite des Eintrags |
+| `imageUrl`    | String &#124; Null   | imageUrl des Vorschaubildes. Gibt `null` zurück wenn kein Vorschaubild hinterlegt ist. |
