@@ -119,7 +119,7 @@ Typ: **JSON**
 
 ## ``/mensa:id``
 
-_Abfrage des Mensaplans für die nächsten zwei Wochen, anhand der übergebenen Mensa Id. 
+_Abfrage des Mensaplans für die nächsten zwei Wochen, anhand der übergebenen Mensa ID. 
 Der Mensaplan setzt sich aus einer Liste von `Menu` für die einzelnen Tage zusammen._
 
 Verfügbare Requesttypes: **GET**
@@ -194,3 +194,133 @@ Typ: **JSON**
 | `deLabel` | String | Bezeichnung auf Deutsch |
 | `enLabel`    | String | Bezeichnung auf Englisch       |
 | `id`    | Int | ID des Zusatzstoffs |
+
+## ``/staff``
+_Abfrage der verfügbaren Mitarbeiter Orte. Rückgabe erfolgt als Array von `staffLocation`._
+
+Verfügbare Requesttypes: **GET**
+
+### Response
+
+Typ: **JSON**
+
+`StaffLocation`
+
+| Feld    | Typ    | Beschreibung                                |
+|---------|--------|---------------------------------------------|
+| `label` | String | Name des Standorts |
+| `id`    | String | Kürzel des Standorts des Zusatzstoffs |
+
+## ``/staff:id``
+
+_Abfrage aller Mitarbeiter eines Standortes anhand der übergebenen ID. Rückgabe erfolgt als Array vpn `Staff`._
+
+Verfügbare Requesttypes: **GET**
+
+### Parameter
+
+| Feld    | Typ    | Beschreibung                                | Art   | Optional |
+|---------|--------|---------------------------------------------|-------|----------|
+| `id` | String | Kürzel des Standorts (z.b. gm) | Path  | Nein |
+
+### Response
+
+Typ: **JSON**
+
+`Staff`
+
+| Feld    | Typ    | Beschreibung                                |
+|---------|--------|---------------------------------------------|
+| `name` | String | Name des Mitarbeiters |
+| `detailUrl`    | String | URL der zur Detailseite der TH Köln für den entsprechenden Mitarbeiter        |
+| `tel`    | String &#124; Null  | Telefonnummer des Mitarbeiters. Gibt `null` zurück wenn keine Telefonnummer hinterlegt ist |
+| `email`    | String &#124; Null  | Email des Mitarbeiters. Gibt `null` zurück wenn keine Email hinterlegt ist |
+
+
+## ``/noticeboard``
+_Abfrage der verfügbaren schwarzen Bretter. Rückgabe erfolgt als Array von `NoticeboardFeed`._
+
+Verfügbare Requesttypes: **GET**
+
+### Response
+
+Typ: **JSON**
+
+`NoticeboardFeed`
+
+| Feld    | Typ    | Beschreibung                                |
+|---------|--------|---------------------------------------------|
+| `label` | String | Name des schwarzen Bretts |
+| `id`    | String | Kürzel des schwarzen Bretts |
+
+## ``/noticeboard:id``
+
+_Abfrage des Feeds eines schwarzen Bretts anhand der übergebenen ID._
+
+Verfügbare Requesttypes: **GET**
+
+### Parameter
+
+| Feld    | Typ    | Beschreibung                                | Art   | Optional |
+|---------|--------|---------------------------------------------|-------|----------|
+| `id` | String | Kürzel des schwarzen Bretts (z.b. inf) | Path  | Nein |
+
+### Response
+
+Typ: **JSON**
+
+| Feld    | Typ    | Beschreibung                                |
+|---------|--------|---------------------------------------------|
+| `title` | String | Name des schwarzen Bretts |
+| `description`    | String | Beschreibung des schwarzen Bretts |
+| `entries`    | NoticeboardEntry[]  | Telefonnummer des Mitarbeiters. Gibt `null` zurück wenn keine Telefonnummer hinterlegt ist |
+
+#### Zugehörige Objekte
+
+`NoticeboardEntry`
+
+| Feld    | Typ    | Beschreibung                                |
+|---------|--------|---------------------------------------------|
+| `title` | String | Titel des Eintrags |
+| `description`    | String | Beschreibung des Eintrags        |
+| `detailUrl`    | String | URL zur Detailseite |
+| `published`    | Date | Datum der Veröffentlichung        |
+
+## ``/newsfeed``
+_Abfrage der verfügbaren Newsfeeds. Rückgabe erfolgt als Array von `NoticeboardFeed`._
+
+Verfügbare Requesttypes: **GET**
+
+### Response
+
+Typ: **JSON**
+
+`Newsfeed`
+
+| Feld    | Typ    | Beschreibung                                |
+|---------|--------|---------------------------------------------|
+| `label` | String | Name des Newsfeeds |
+| `id`    | String | Kürzel des Newsfeeds |
+
+## ``/newsfeed:id``
+
+_Abfrage eines Newsfeeds anhand der übergebenen ID._
+
+Verfügbare Requesttypes: **GET**
+
+### Parameter
+
+| Feld    | Typ    | Beschreibung                                | Art   | Optional |
+|---------|--------|---------------------------------------------|-------|----------|
+| `id` | String | Kürzel des Newsfeeds (z.b. f10) | Path  | Nein |
+
+### Response
+
+Typ: **JSON**
+
+| Feld    | Typ    | Beschreibung                                |
+|---------|--------|---------------------------------------------|
+| `title` | String | Titel des Newsfeeds |
+| `body`    | String | Beschreibung des Newsfeeds |
+| `detailUrl`    | String  | URL zur Detailseite des Eintrags |
+| `imageUrl`    | String &#124; Null   | imageUrl des Vorschaubildes. Gibt `null` zurück wenn kein Vorschaubild hinterlegt ist. |
