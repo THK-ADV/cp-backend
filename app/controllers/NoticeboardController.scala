@@ -13,7 +13,7 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success, Try}
 
-object NoticeboardController extends LocalDateTimeFormat {
+object NoticeboardController extends DateTimeFormat {
   implicit val noticeboardFeedWrites: Writes[NoticeboardFeed] =
     Writes.apply(a => Json.obj("label" -> a.label, "id" -> a.id))
 

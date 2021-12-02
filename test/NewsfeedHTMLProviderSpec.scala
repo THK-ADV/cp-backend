@@ -26,43 +26,43 @@ class NewsfeedHTMLProviderSpec extends AsyncSpec with ApplicationSpec {
 
   "A Newsfeed HTML Provider" should {
     "fetch the html newsfeed for 'F01'" in {
-      testDataProvider(Newsfeed.F01)(_.size shouldBe 50)
+      testDataProvider(Newsfeed.F01)(_ should not be empty)
     }
     "fetch the html newsfeed for 'F02'" in {
-      testDataProvider(Newsfeed.F02)(_.size shouldBe 50)
+      testDataProvider(Newsfeed.F02)(_ should not be empty)
     }
     "fetch the html newsfeed for 'F03'" in {
-      testDataProvider(Newsfeed.F03)(_.size shouldBe 50)
+      testDataProvider(Newsfeed.F03)(_ should not be empty)
     }
     "fetch the html newsfeed for 'F04'" in {
-      testDataProvider(Newsfeed.F04)(_.size shouldBe 50)
+      testDataProvider(Newsfeed.F04)(_ should not be empty)
     }
     "fetch the html newsfeed for 'F05'" in {
-      testDataProvider(Newsfeed.F05)(_.size shouldBe 50)
+      testDataProvider(Newsfeed.F05)(_ should not be empty)
     }
     "fetch the html newsfeed for 'F06'" in {
-      testDataProvider(Newsfeed.F06)(_.size shouldBe 50)
+      testDataProvider(Newsfeed.F06)(_ should not be empty)
     }
     "fetch the html newsfeed for 'F07'" in {
-      testDataProvider(Newsfeed.F07)(_.size shouldBe 50)
+      testDataProvider(Newsfeed.F07)(_ should not be empty)
     }
     "fetch the html newsfeed for 'F08'" in {
-      testDataProvider(Newsfeed.F08)(_.size shouldBe 50)
+      testDataProvider(Newsfeed.F08)(_ should not be empty)
     }
     "fetch the html newsfeed for 'F09'" in {
-      testDataProvider(Newsfeed.F09)(_.size shouldBe 50)
+      testDataProvider(Newsfeed.F09)(_ should not be empty)
     }
     "fetch the html newsfeed for 'F10'" in {
-      testDataProvider(Newsfeed.F10)(_.size shouldBe 50)
+      testDataProvider(Newsfeed.F10)(_ should not be empty)
     }
     "fetch the html newsfeed for 'F11'" in {
-      testDataProvider(Newsfeed.F11)(_.size shouldBe 50)
+      testDataProvider(Newsfeed.F11)(_ should not be empty)
     }
     "fetch the html newsfeed for 'F12'" in {
-      testDataProvider(Newsfeed.F12)(_.size shouldBe 50)
+      testDataProvider(Newsfeed.F12)(_ should not be empty)
     }
     "fetch the html newsfeed for 'General TH Köln'" in {
-      testDataProvider(Newsfeed.General)(_.size shouldBe 50)
+      testDataProvider(Newsfeed.General)(_ should not be empty)
     }
   }
 }

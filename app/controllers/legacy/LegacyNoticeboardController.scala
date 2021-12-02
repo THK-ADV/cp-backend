@@ -3,7 +3,9 @@ package controllers.legacy
 import controllers.NoticeboardController
 import controllers.legacy.LegacyNoticeboardController.parseLegacyNoticeboard
 import noticeboard.{Noticeboard, NoticeboardEntry}
-import org.joda.time.format.{DateTimeFormat, ISODateTimeFormat}
+import ops.DateTimeFormatOps
+import org.joda.time.DateTimeZone
+import org.joda.time.format.DateTimeFormat
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AbstractController, ControllerComponents}
 
@@ -13,7 +15,7 @@ import scala.concurrent.ExecutionContext
 object LegacyNoticeboardController {
   def parseLegacyNoticeboard(nb: Noticeboard, isoDate: Boolean): JsValue = {
     val dateFormat =
-      if (isoDate) ISODateTimeFormat.dateTime()
+      if (isoDate) DateTimeFormatOps.isoDate
       else DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
 
     def go(e: NoticeboardEntry): JsValue =
@@ -21,12 +23,12 @@ object LegacyNoticeboardController {
         "title" -> e.title,
         "url" -> e.detailUrl.stripPrefix("https://www.th-koeln.de/"),
         "text" -> e.description,
-        "date" -> e.published.toString(dateFormat)
+        "date" -> dateFormat.print(e.published)
       )
 
     Json.obj(
       "status" -> 1,
-      "origin" -> "https://www.th-koeln.de/rss/schwarzes-brett--informatik_33871.php",
+      "origin" -> "",
       "module" -> "pinboard",
       "pinboard" -> "",
       "data" -> nb.entries.map(go)

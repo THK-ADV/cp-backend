@@ -4,6 +4,7 @@ import net.ruippeixotog.scalascraper.browser.Browser
 import net.ruippeixotog.scalascraper.dsl.DSL.Extract._
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.model.Element
+import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 
 import java.util.Locale
@@ -15,7 +16,7 @@ class NoticeboardParser @Inject() (val config: NoticeboardConfig) {
 
   private val formatter = DateTimeFormat
     .forPattern("EEE, dd MMM yyyy HH:mm:ss Z")
-    .withLocale(Locale.US)
+    .withZoneUTC()
 
   def parse(doc: Browser#DocumentType): Either[String, Noticeboard] =
     for {
@@ -34,7 +35,7 @@ class NoticeboardParser @Inject() (val config: NoticeboardConfig) {
   def parseEntry(elem: Element): Option[NoticeboardEntry] =
     for {
       date <- Try(
-        formatter.parseLocalDateTime(elem >> text("pubDate"))
+        formatter.parseDateTime(elem >> text("pubDate"))
       ).toOption
       title <- elem >?> text("title")
       desc <- elem >?> text("description")
